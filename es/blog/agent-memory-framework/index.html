@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es" class="dark" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      var html = document.documentElement;
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+    })();
+    function toggleTheme() {
+      var html = document.documentElement;
+      var theme = html.classList.contains('dark') ? 'light' : 'dark';
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+  </script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Google Consent Mode v2 defaults: deny analytics/ads storage until
+      // the visitor accepts via the cookie banner (see
+      // theme/js/cookieconsent-config.js, which calls gtag('consent',
+      // 'update', ...) from CookieConsent's onFirstConsent/onChange).
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+      });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MKSVW4QD');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos · datacloudhero.com</title>
+
+  <link rel="canonical" href="https://datacloudhero.com/es/blog/agent-memory-framework/">
+  <meta property="og:url" content="https://datacloudhero.com/es/blog/agent-memory-framework/">
+  <link rel="alternate" hreflang="es" href="https://datacloudhero.com/es/blog/agent-memory-framework/">
+  <link rel="alternate" hreflang="de" href="https://datacloudhero.com/de/blog/agent-memory-framework/">
+  <link rel="alternate" hreflang="en" href="https://datacloudhero.com/blog/agent-memory-framework/">
+<link rel="alternate" hreflang="x-default" href="https://datacloudhero.com/blog/agent-memory-framework/">  <link rel="alternate" hreflang="fr" href="https://datacloudhero.com/fr/blog/agent-memory-framework/">
+  <meta name="description" content="Tres ejes independientes — qué se almacena, cómo se recupera y quién es su propietario — en lugar de otra lista más de cuatro a siete &#34;tipos de memoria&#34;.">
+  <meta property="og:site_name" content="datacloudhero.com">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos">
+  <meta property="og:description" content="Tres ejes independientes — qué se almacena, cómo se recupera y quién es su propietario — en lugar de otra lista más de cuatro a siete &#34;tipos de memoria&#34;.">
+  <meta property="og:image" content="https://datacloudhero.com/es/blog/agent-memory-framework/agent-memory-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos">
+  <meta name="twitter:description" content="Tres ejes independientes — qué se almacena, cómo se recupera y quién es su propietario — en lugar de otra lista más de cuatro a siete &#34;tipos de memoria&#34;.">
+  <meta name="twitter:image" content="https://datacloudhero.com/es/blog/agent-memory-framework/agent-memory-diagram.png">
+
+  <link rel="icon" href="https://datacloudhero.com/theme/img/favicon.ico" type="image/x-icon" />
+  <link href="https://datacloudhero.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="datacloudhero.com Full Atom Feed">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/site.css?v=3d90076755">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/pygments.css?v=01d990f349">
+  <script>
+      function siteSearch() {
+          return {
+              query: '',
+              open: false,
+              results: [],
+              index: [],
+              selected: 0,
+              showAll: false,
+              init() {
+                  fetch('https://datacloudhero.com/blog/search-index.json')
+                      .then((r) => r.json())
+                      .then((data) => { this.index = data; })
+                      .catch(() => { this.index = []; });
+              },
+              search() {
+                  const q = this.query.trim().toLowerCase();
+                  this.open = q.length > 0;
+                  this.selected = 0;
+                  this.showAll = false;
+                  if (!q) { this.results = []; return; }
+                  this.results = this.index.filter((item) =>
+                      item.title.toLowerCase().includes(q) || (item.content || item.summary).toLowerCase().includes(q)
+                  );
+              },
+              get visibleResults() {
+                  return this.showAll ? this.results : this.results.slice(0, 6);
+              },
+              clear() {
+                  this.query = '';
+                  this.results = [];
+                  this.open = false;
+              },
+              matchType(item) {
+                  const q = this.query.trim().toLowerCase();
+                  return item.title.toLowerCase().includes(q) ? 'title' : 'content';
+              },
+              escapeHtml(str) {
+                  return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+              },
+              highlight(text) {
+                  const q = this.query.trim();
+                  const escaped = this.escapeHtml(text);
+                  if (!q) return escaped;
+                  const escapedQ = this.escapeHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  return escaped.replace(new RegExp('(' + escapedQ + ')', 'ig'), '<strong>$1</strong>');
+              },
+              move(delta) {
+                  if (!this.visibleResults.length) return;
+                  const max = this.visibleResults.length - 1;
+                  this.selected = Math.min(max, Math.max(0, this.selected + delta));
+              },
+              go() {
+                  const item = this.visibleResults[this.selected];
+                  if (item) window.location.href = item.url;
+              },
+          };
+      }
+
+      function infiniteScroll(nextUrl) {
+          return {
+              nextUrl: nextUrl || null,
+              loading: false,
+              init() {
+                  if (!this.nextUrl) return;
+                  const observer = new IntersectionObserver((entries) => {
+                      if (entries[0].isIntersecting) this.loadMore();
+                  });
+                  observer.observe(this.$refs.sentinel);
+              },
+              async loadMore() {
+                  if (this.loading || !this.nextUrl) return;
+                  this.loading = true;
+                  try {
+                      const res = await fetch(this.nextUrl);
+                      const html = await res.text();
+                      const doc = new DOMParser().parseFromString(html, 'text/html');
+                      const newPosts = doc.querySelectorAll('#post-list > article');
+                      const list = this.$refs.postList;
+                      newPosts.forEach((post) => list.appendChild(post));
+                      const pagination = doc.getElementById('pagination-data');
+                      this.nextUrl = pagination ? (pagination.dataset.nextUrl || null) : null;
+                  } catch (e) {
+                      this.nextUrl = null;
+                  } finally {
+                      this.loading = false;
+                  }
+              },
+          };
+      }
+  </script>
+  <script defer src="https://datacloudhero.com/theme/js/contact-form.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body
+  class="grid-bg"
+  x-data="{
+    menuOpen: false,
+  }"
+  x-init="
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  "
+>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSVW4QD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div class="navbar-custom py-4">
+    <div class="navbar-inner flex items-center justify-between">
+      <a href="https://datacloudhero.com/es/" class="text-xl font-bold tracking-tight flex items-center gap-2">
+        <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-8 w-auto" />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="https://datacloudhero.com/es/#services" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+        <a href="https://datacloudhero.com/es/#stack" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+        <a href="https://datacloudhero.com/es/#process" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+        <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+        <div class="relative" x-data="{ langMenuOpen: false }" @click.outside="langMenuOpen = false">
+          <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+            ES
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div x-show="langMenuOpen" x-cloak x-transition class="absolute right-0 mt-2 w-36 rounded-xl border border-line/10 bg-panel/95 backdrop-blur-xl shadow-2xl py-2 z-50">
+            <a href="https://datacloudhero.com/blog/agent-memory-framework/" hreflang="en" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">English</a>
+            <a href="https://datacloudhero.com/fr/blog/agent-memory-framework/" hreflang="fr" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Français</a>
+            <a href="https://datacloudhero.com/de/blog/agent-memory-framework/" hreflang="de" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Deutsch</a>
+            <a href="https://datacloudhero.com/es/blog/agent-memory-framework/" hreflang="es" class="block px-4 py-2 text-sm mono text-accent font-semibold">Español</a>
+          </div>
+        </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold mono">
+          Contáctanos
+        </a>
+      </nav>
+
+      <button
+        class="md:hidden text-muted hover:text-accent transition-colors"
+        type="button"
+        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen"
+        aria-label="Abrir menú"
+      >
+        <svg x-show="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+
+        <svg x-show="menuOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      x-show="menuOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="navbar-inner md:hidden mt-4 flex flex-col gap-4 border-t border-line/5 pt-4 pb-2"
+      x-cloak
+    >
+      <a href="https://datacloudhero.com/es/#services" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+      <a href="https://datacloudhero.com/es/#stack" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+      <a href="https://datacloudhero.com/es/#process" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+      <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+      <div x-data="{ langMenuOpen: false }">
+        <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+          ES
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div x-show="langMenuOpen" x-cloak x-transition class="flex flex-col gap-3 mt-3 pl-4 border-l border-line/10">
+          <a href="https://datacloudhero.com/blog/agent-memory-framework/" hreflang="en" class="mono text-sm text-muted hover:text-accent transition-colors">English</a>
+          <a href="https://datacloudhero.com/fr/blog/agent-memory-framework/" hreflang="fr" class="mono text-sm text-muted hover:text-accent transition-colors">Français</a>
+          <a href="https://datacloudhero.com/de/blog/agent-memory-framework/" hreflang="de" class="mono text-sm text-muted hover:text-accent transition-colors">Deutsch</a>
+          <a href="https://datacloudhero.com/es/blog/agent-memory-framework/" hreflang="es" class="mono text-sm text-accent font-semibold">Español</a>
+        </div>
+      </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white w-fit font-semibold mono">
+        Contáctanos
+      </a>
+    </div>
+  </div>
+  <main class="site-main">
+    <div class="site-container">
+<div class="flex flex-col gap-12 lg:flex-row lg:gap-16">
+  <div class="lg:w-3/4 min-w-0">
+    <div class="content-wrap">
+<article>
+  <header class="mb-10">
+    <div class="mono text-accent text-sm mb-5 flex items-center gap-3">
+      <span class="accent-line"></span>
+<a href="https://datacloudhero.com/blog/category/ai-agents/" class="hover:underline">AI Agents</a>    </div>
+
+    <h1 class="text-3xl md:text-5xl font-extrabold text-ink leading-tight tracking-tight mb-5">Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos</h1>
+
+    <div class="mono text-xs text-subtle mb-8">
+      <time datetime="2026-09-14T10:00:00+02:00">Mon 14 September 2026</time>
+      · 12 min de lectura
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-6">
+      <div class="flex flex-wrap gap-6">
+<div class="flex items-center gap-3">
+  <img src="https://avatars.githubusercontent.com/u/78014277?v=4" alt="Edgar L" class="author-avatar" loading="lazy">
+  <div>
+    <div class="flex items-center gap-2">
+      <a href="https://datacloudhero.com/blog/author/edgar-l/" class="author-name font-semibold text-sm">Edgar L</a>
+    </div>
+<div class="text-xs text-subtle mt-0.5">Technical Content Writer — AI & Data</div>    <div class="flex gap-1.5 mt-1.5">
+      <a href="https://www.linkedin.com/in/edgarlakshin/" class="author-social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <a href="https://github.com/edgrln" class="author-social-icon" aria-label="GitHub" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.38 2.9-.39.98.01 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.6.23 2.77.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.41-5.28 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .3.21.66.8.55A10.53 10.53 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>      </div>
+<div class="ai-actions relative" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false">
+  <button type="button" @click="open = !open" :aria-expanded="open"
+          class="btn btn-sm btn-ghost border border-line/10 rounded-lg mono font-normal text-soft hover:border-accent/30">
+    <span class="js-ai-actions-label">Copiar página</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <ul class="menu-panel" style="left: auto; right: 0;" x-show="open" x-cloak x-transition>
+    <li><button class="menu-item js-copy-markdown" type="button" data-md-url="https://datacloudhero.com/es/blog/agent-memory-framework.md">Copiar página como Markdown</button></li>
+    <li><a class="menu-item" href="https://datacloudhero.com/es/blog/agent-memory-framework.md" target="_blank" rel="noopener">Ver como Markdown</a></li>
+    <li><div class="menu-divider"></div></li>
+    <li><a class="menu-item" href="https://chatgpt.com/?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/agent-memory-framework/" target="_blank" rel="noopener">Abrir en ChatGPT</a></li>
+    <li><a class="menu-item" href="https://claude.ai/new?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/agent-memory-framework/" target="_blank" rel="noopener">Abrir en Claude</a></li>
+    <li><a class="menu-item" href="https://www.perplexity.ai/search?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/agent-memory-framework/" target="_blank" rel="noopener">Abrir en Perplexity</a></li>
+  </ul>
+</div>    </div>
+  </header>
+
+  <div class="article-body prose prose-lg max-w-none">
+    <p>Si lees varios artículos seguidos sobre la memoria de los agentes de IA, es fácil perderse: una fuente habla de tres tipos de memoria, otra de cuatro o cinco, una tercera evita directamente la palabra "tipo" y habla de "compaction" y "note-taking". Aun así, casi todas remiten al mismo artículo científico — <a href="https://arxiv.org/abs/2309.02427">CoALA</a> (Sumers, Yao, Narasimhan, Griffiths, 2023).</p>
+<p>El propio artículo propone cuatro tipos de memoria: <strong>working</strong> (memoria de trabajo — lo que está activo ahora mismo, en el paso actual), <strong>semantic</strong> (hechos), <strong>episodic</strong> (eventos), <strong>procedural</strong> (reglas y habilidades — tanto código escrito explícitamente como conocimiento implícito incorporado en los pesos del modelo). A continuación los agrupamos de forma algo distinta al original — no porque CoALA se equivoque, sino porque a una solución de ingeniería le resulta útil mirar la cuestión desde dos ángulos independientes a la vez.</p>
+<p>La dispersión tiene explicación: la mayoría de los textos mezclan dos preguntas independientes en una sola lista:</p>
+<ol>
+<li><strong>Qué</strong> se recuerda (¿un hecho? ¿un evento? ¿una regla?)</li>
+<li><strong>Cómo y dónde</strong> vuelve al modelo (¿ahora mismo, en el prompt? ¿en un archivo en disco? ¿mediante una búsqueda?)</li>
+</ol>
+<p>Son dos ejes distintos, y la mayor parte de la confusión viene de mezclarlos. Hay también un tercer eje — quién es dueño de la memoria y cuándo se escribe — que casi nunca se menciona junto a los dos primeros, así que lo tratamos aparte más abajo. Separando los tres se obtiene un esquema simple y funcional - y explica por qué incluso los profesionales rara vez coinciden en la terminología.</p>
+<hr>
+<h2>Eje 1: qué se almacena</h2>
+<p>Aquí sí hay tres categorías sustanciales, que se repiten de forma constante de una fuente a otra:</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Pregunta</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hecho (semantic)</strong></td>
+<td>¿Qué es verdad?</td>
+<td>"El usuario prefiere Python"</td>
+</tr>
+<tr>
+<td><strong>Evento (episodic)</strong></td>
+<td>¿Qué ocurrió?</td>
+<td>"La última vez el despliegue falló por una variable de entorno olvidada"</td>
+</tr>
+<tr>
+<td><strong>Regla (procedural)</strong></td>
+<td>¿Cómo actuar?</td>
+<td>"Comprobar siempre las variables de entorno antes de desplegar"</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># La misma estructura para los tres - solo cambian los esquemas del registro</span>
+<span class="n">fact</span>    <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fact&quot;</span><span class="p">,</span>    <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;language_pref&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span><span class="p">}</span>
+<span class="n">episode</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;episode&quot;</span><span class="p">,</span> <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;deploy&quot;</span><span class="p">,</span> <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;missing env var&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-09-01&quot;</span><span class="p">}</span>
+<span class="n">rule</span>    <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;rule&quot;</span><span class="p">,</span>    <span class="s2">&quot;trigger&quot;</span><span class="p">:</span> <span class="s2">&quot;before_deploy&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;check env vars&quot;</span><span class="p">}</span>
+</code></pre></div>
+
+<p>Como se mencionó en la introducción, en CoALA la working memory es un cuarto tipo, al mismo nivel que estos tres. Aquí la trasladamos deliberadamente al Eje 2, porque para una solución de ingeniería importa más "está físicamente en el prompt ahora mismo o no" que "de qué tipo de contenido se trata" - eso se acerca más a la decisión que hay que tomar en la práctica. La working memory se trata allí durante el resto del texto.</p>
+<h2>Eje 2: cómo y dónde vuelve al modelo</h2>
+<p>Aquí es donde más se confunde la gente. Anthropic formula la idea clave explícitamente en su artículo sobre <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">context engineering</a>: <strong>el modelo no "recuerda" nada que no esté físicamente en el prompt ahora mismo</strong>. El almacenamiento no es memoria. La memoria es lo que realmente llegó a la ventana de contexto.</p>
+<p>De ahí surgen tres mecanismos:</p>
+<ul>
+<li><strong>Working memory</strong> — lo que ya está en el prompt (el system prompt, el historial de la conversación, el resultado de una herramienta que se acaba de invocar).</li>
+<li><strong>Persistent storage</strong> — un archivo, una base de datos, un memory store: un lugar donde la información vive entre sesiones, pero que el modelo <em>no ve</em> hasta que alguien la vuelve a colocar allí.</li>
+<li><strong>Retrieval</strong> — el paso activo de "ir a buscar la pieza correcta en el storage e insertarla en la working memory". Búsqueda semántica, lookup exacto, o simplemente leer un archivo en una ruta conocida.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Pseudocódigo al estilo del &quot;structured note-taking&quot; del post de Anthropic</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">turn</span><span class="p">(</span><span class="n">user_message</span><span class="p">,</span> <span class="n">working_memory</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
+    <span class="c1"># 1. Retrieval: ¿qué del storage es relevante ahora mismo?</span>
+    <span class="n">relevant</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">user_message</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">working_memory</span> <span class="o">=</span> <span class="n">compact</span><span class="p">(</span><span class="n">working_memory</span><span class="p">)</span> <span class="o">+</span> <span class="n">relevant</span>
+
+    <span class="c1"># 2. El modelo responde, viendo solo working_memory</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">call_model</span><span class="p">(</span><span class="n">working_memory</span> <span class="o">+</span> <span class="p">[</span><span class="n">user_message</span><span class="p">])</span>
+
+    <span class="c1"># 3. ¿Qué merece la pena guardar de vuelta en el storage?</span>
+    <span class="k">if</span> <span class="n">worth_remembering</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="n">store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">extract_memory</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">response</span><span class="p">,</span> <span class="n">working_memory</span>
+</code></pre></div>
+
+<p><img alt="Diagrama: Fact/Event/Rule en persistent storage llegan a Working memory a través de Retrieval; Parametric se conecta directamente a Working memory, sin retrieval" src="https://datacloudhero.com/es/blog/agent-memory-framework/agent-memory-diagram.png"></p>
+<p>El retrieval no es un cuarto tipo de contenido, sino un mecanismo de entrega para cualquiera de los tres tipos del Eje 1. LangChain lo formula casi textualmente en su documentación de Deep Agents: en la tabla de parámetros de memoria, "Information type" (semantic/episodic/procedural) y "Retrieval" (cargado en el prompt por defecto / leído bajo demanda) son dos columnas distintas que responden a dos preguntas distintas, no puntos de una misma lista.</p>
+<hr>
+<h2>Casos especiales: parametric y prospective</h2>
+<p><strong>Parametric memory</strong> (conocimiento incorporado en los pesos del modelo) — según la clasificación de CoALA, es la forma implícita de la memoria procedural; la forma explícita de esa misma memoria procedural son precisamente las reglas escritas del "rule" de arriba. Para la práctica de ingeniería, sin embargo, conviene separar ambas formas: una regla explícita se puede leer, editar y versionar como datos normales; el conocimiento implícito en los pesos, no. Es la base sobre la que se apoya todo lo demás: la competencia general del modelo, el sentido común, los hechos absorbidos durante el entrenamiento. No se "recupera" como un paso aparte - ya participa de forma inseparable en la generación de cada token. No tiene sentido incluirla en un esquema de gestión de memoria: no se puede editar puntualmente, solo hacer fine-tuning o reentrenar el modelo entero.</p>
+<p><strong>Prospective memory</strong> ("recuérdame el viernes") es uno de esos puntos que hacen que algunas clasificaciones se hinchen a cuatro o cinco tipos en vez de tres (ver la introducción). No necesita eje ni tipo propio: es un caso particular del Eje 2 - una escritura en persistent storage más un disparador externo (un cron, una cola de tareas) que, en el momento adecuado, coloca ese registro en la working memory de una nueva ejecución. Técnicamente no se diferencia en nada de una regla normal, solo que con un campo <code>trigger_at</code> en vez de <code>trigger: "before_deploy"</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">reminder</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;rule&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;trigger_at&quot;</span><span class="p">:</span> <span class="s2">&quot;2026-09-18T09:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;follow up with customer about renewal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;done&quot;</span><span class="p">:</span> <span class="kc">False</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr>
+<h2>Eje 3: de quién es la memoria</h2>
+<p>Existe una tercera dimensión que suele pasarse por alto en las conversaciones sobre "tipos de memoria", aunque en la práctica resuelve más problemas de ingeniería que cualquier clasificación por contenido. Es la gobernanza - quién escribe, quién lee, y cuándo:</p>
+<ul>
+<li><strong>Scope</strong> — ¿la memoria está ligada a un usuario, al agente (compartida entre todos), o a la organización (políticas y cumplimiento)?</li>
+<li><strong>Update strategy</strong> — ¿la memoria se escribe durante la propia conversación (hot path), o mediante un proceso en segundo plano entre sesiones (background consolidation / "sleep-time compute")?</li>
+<li><strong>Permissions</strong> — lectura-escritura por defecto, pero las políticas compartidas y las reglas de cumplimiento suelen dejarse en solo lectura, para que una instrucción inyectada en una conversación no pueda reescribir en silencio el comportamiento del agente para todos los demás.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Memoria de toda la organización, de solo lectura - el agente la lee pero nunca escribe en ella</span>
+<span class="c1"># (las rutas exactas de los campos en el objeto runtime dependen de la versión de</span>
+<span class="c1"># LangChain/Deep Agents; este es el esquema vigente en su documentación al momento de escribir esto)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">CompositeBackend</span><span class="p">(</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">StateBackend</span><span class="p">(),</span>
+    <span class="n">routes</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;/memories/&quot;</span><span class="p">:</span> <span class="n">StoreBackend</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="k">lambda</span> <span class="n">rt</span><span class="p">:</span> <span class="p">(</span><span class="n">rt</span><span class="o">.</span><span class="n">server_info</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">identity</span><span class="p">,)),</span>  <span class="c1"># per-user, read-write</span>
+        <span class="s2">&quot;/policies/&quot;</span><span class="p">:</span> <span class="n">StoreBackend</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="k">lambda</span> <span class="n">rt</span><span class="p">:</span> <span class="p">(</span><span class="n">rt</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">org_id</span><span class="p">,)),</span>              <span class="c1"># org-wide, read-only</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Diagrama: el Agent lee y escribe en el scope User (lectura-escritura), pero del scope Org solo lee; un intento del agente de escribir en el scope Org una instrucción proveniente de la conversación queda bloqueado por los permisos" src="https://datacloudhero.com/es/blog/agent-memory-framework/agent-memory-governance-diagram.png"></p>
+<p>Este es el eje que más problemas suele causar en producción - no en la fase de prototipo, sino más adelante, cuando varios usuarios o agentes acceden a la vez a la misma memoria. Un ejemplo concreto: un agente de soporte escribe en la memoria compartida de un ticket una nota del tipo "el cliente pidió saltarse la verificación de edad" - y si esa memoria la lee sin criterio otra sesión u otro agente, la instrucción puede filtrarse sin darse cuenta a la conversación de otra persona. De ahí la regla por defecto: alcance de usuario salvo que haya una razón explícita para compartir; las políticas compartidas son de solo lectura y las rellena el código de la aplicación, no el propio agente en mitad de la conversación.</p>
+<hr>
+<h2>En resumen: en qué se diferencian los ejes</h2>
+<p>Antes de juntarlo todo en una tabla - los tres ejes de un vistazo, porque de aquí en adelante siempre se usan juntos:</p>
+<ul>
+<li><strong>Eje 1 (qué)</strong> — qué tipo de información es: un hecho estable, un evento puntual, o una regla repetible. Responde a "qué es esto, en cuanto a contenido".</li>
+<li><strong>Eje 2 (cómo y dónde)</strong> — está físicamente en el prompt ahora mismo (working memory), se almacena por separado (persistent storage), y cómo pasa de uno a otro (retrieval). Responde a "dónde está esto en un momento dado".</li>
+<li><strong>Eje 3 (de quién)</strong> — de quién es: de un usuario, del agente, o de la organización; quién lo escribe y cuándo; se puede editar o solo leer. Responde a "quién controla este registro".</li>
+</ul>
+<p>No son clasificaciones alternativas que compitan por sustituirse entre sí, sino tres cortes independientes del mismo registro: cualquier hecho, evento o regla tiene su propia respuesta en cada uno de los tres ejes a la vez (más abajo hay un ejemplo desarrollado de un mismo registro en los tres ejes, en el caso del agente de soporte).</p>
+<h2>Armando el marco</h2>
+<p>Reunamos este esquema en una sola tabla 3×3, más el eje de governance encima:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Working memory</th>
+<th>Persistent storage</th>
+<th>Retrieval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hecho</strong></td>
+<td>Mientras no se expulse del contexto</td>
+<td><code>facts/user_123.md</code></td>
+<td>lookup exacto por clave</td>
+</tr>
+<tr>
+<td><strong>Evento</strong></td>
+<td>Los últimos N turnos de la conversación</td>
+<td>log del historial de ejecuciones / thread</td>
+<td>búsqueda semántica, o por <code>user_id</code>/<code>org_id</code></td>
+</tr>
+<tr>
+<td><strong>Regla</strong></td>
+<td>Parte del system prompt</td>
+<td><code>procedures/deploy_checklist.md</code></td>
+<td>normalmente se lee entera, no se busca</td>
+</tr>
+</tbody>
+</table>
+<p>Para cada celda se decide por separado: quién es dueño de esa memoria (user / agent / org), y cuándo se escribe (hot path / background).</p>
+<p>Un algoritmo práctico para diseñar la memoria de un agente:</p>
+<ol>
+<li><strong>Qué es</strong> — ¿un hecho estable, un evento puntual, o una regla repetible?</li>
+<li><strong>¿Sobrevive al final de la sesión?</strong> Si no, con la working memory basta - no hace falta guardar nada.</li>
+<li><strong>¿Cómo lo encontrará el modelo la próxima vez</strong> — por clave exacta, por significado, por fecha, o el archivo simplemente se lee siempre entero?</li>
+<li><strong>¿Quién es dueño de esta información</strong> — ¿un usuario concreto, el agente en general, o la organización? ¿Hace falta solo lectura para protegerse de inyecciones a través de un estado compartido?</li>
+<li><strong>¿Cuándo se escribe</strong> — al momento, en la propia conversación, o se puede posponer a una consolidación en segundo plano para no pagar latencia en cada turno?</li>
+</ol>
+<p>Responde estas cinco preguntas para cada tipo de información, y obtienes una arquitectura de memoria de agente - no una lista de "tipos" abstractos.</p>
+<h3>Ejemplo: un agente de soporte al cliente</h3>
+<p>Tres candidatos a "memoria" de una sola conversación con un cliente de un producto SaaS:</p>
+<ol>
+<li><em>"Cliente en el plan Pro, renueva el 2026-11-01"</em> — un hecho. Sobrevive a la sesión → se guarda en <code>facts/customer_{id}.md</code> o en una tabla de CRM; scope: usuario, lectura-escritura; se escribe en el hot path justo después de la respuesta de la API de facturación; se encuentra por lookup exacto de <code>customer_id</code>.</li>
+<li><em>"El último mes el cliente se quejó tres veces de la lentitud al cargar los informes"</em> — un evento. Sobrevive a la sesión → un log de tickets; scope: usuario (o agente, si el patrón hay que escalarlo al equipo de producto); se escribe en el hot path al cerrar el ticket; se encuentra por búsqueda semántica o por <code>customer_id</code> más una ventana temporal.</li>
+<li><em>"Los reembolsos solo se tramitan por el formulario X, nunca a mano"</em> — una regla. No trata de un cliente concreto y sobrevive a cualquier sesión → <code>policies/refunds.md</code>; scope: organización, <strong>de solo lectura</strong> para el agente; solo la escribe el código o el equipo de soporte; se lee entera como parte del system prompt cada vez que surge el tema de los reembolsos.</li>
+</ol>
+<p>Los tres registros parecen lo mismo a simple vista - "algo que merece la pena recordar" -, pero su infraestructura y sus permisos son completamente distintos. Por eso merece la pena separar el contenido (Eje 1), la entrega (Eje 2) y la propiedad (Eje 3): una simple tabla de "tipos de memoria" sin estos ejes no dice dónde guardar algo ni quién puede escribirlo.</p>
+<hr>
+<h2>Por qué la terminología difiere incluso entre profesionales</h2>
+<p>El campo es joven y avanza rápido: no hay un estándar establecido, y los términos están en buena parte tomados de la psicología cognitiva - una metáfora cómoda, pero no un modelo preciso para la arquitectura de software. Además, cada empresa describe la memoria en función de su propio producto: LangChain en torno a LangGraph/Deep Agents, Anthropic en torno a la ventana de contexto de Claude, IBM como material educativo generalista. Por eso las mismas palabras terminan con distinto peso y distinto anidamiento, y de una idea en el fondo sencilla - "guarda el dato, luego recupera la pieza correcta" - crecen listas de cuatro, cinco, siete puntos - no necesariamente porque alguien se equivoque, sino porque cada lista responde a su propia pregunta práctica, para su propio público.</p>
+<p>La conclusión práctica es simple: la próxima vez que te encuentres con una clasificación de memoria, no intentes forzarla en una única lista "correcta" de tipos. Es más útil preguntarse a cuál de los tres ejes (qué / cómo se recupera / de quién es) responde en realidad, y qué problema de ingeniería te ayuda a resolver en tu caso concreto.</p>
+<hr>
+<p><em>Fuentes: <a href="https://arxiv.org/abs/2309.02427">CoALA (Sumers et al., 2023)</a>, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic — Effective context engineering for AI agents</a>, <a href="https://docs.langchain.com/oss/python/deepagents/memory">LangChain — Memory for Deep Agents</a>, <a href="https://www.langchain.com/blog/memory-for-agents">LangChain — Memory for agents (blog)</a>, <a href="https://www.ibm.com/think/topics/ai-agent-memory">IBM — What is AI agent memory?</a>.</em></p>
+  </div>
+
+  <div class="mt-10 flex flex-wrap items-center gap-2">
+    <span class="mono text-xs text-subtle mr-1">Etiquetas:</span>
+    <a href="https://datacloudhero.com/blog/tag/ai-agents/" class="stack-badge">AI agents</a>
+    <a href="https://datacloudhero.com/blog/tag/memory/" class="stack-badge">memory</a>
+    <a href="https://datacloudhero.com/blog/tag/langchain/" class="stack-badge">LangChain</a>
+    <a href="https://datacloudhero.com/blog/tag/anthropic/" class="stack-badge">Anthropic</a>
+    <a href="https://datacloudhero.com/blog/tag/architecture/" class="stack-badge">architecture</a>
+  </div>
+
+<aside class="not-prose cta-section p-8 md:p-12 text-center my-16">
+  <div class="mono text-accent text-sm mb-4">¿Listo para empezar?</div>
+  <div class="text-3xl md:text-4xl font-bold text-ink mb-5 leading-tight">
+    Construyamos algo grande
+  </div>
+  <p class="text-muted max-w-lg mx-auto mb-8 leading-relaxed">
+    Cuéntanos tu desafío de plataforma de datos: pipelines, CI/CD, fiabilidad, arquitectura o costes cloud. Tendrás una conversación técnica clara, sin discurso de ventas.
+  </p>
+  <button type="button" @click="$dispatch('open-contact')" class="btn btn-glow btn-lg rounded-xl px-10 font-bold">
+    Escríbenos ✉
+  </button>
+  <div class="mono text-xs text-faint mt-8">
+    <a href="mailto:info@datacloudhero.com" class="hover:text-accent">info@datacloudhero.com</a>
+    · Colaboraciones de asesoría seleccionadas · En remoto, en toda Europa
+  </div>
+</aside></article>
+
+<a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-muted hover:text-accent transition-colors">← Volver a todas las entradas</a>
+    </div>
+  </div>
+
+  <aside class="lg:w-1/4 lg:order-first">
+    <div class="sidebar-sticky">
+      <div class="search-box mb-10" x-data="siteSearch()" x-init="init()" @click.away="open = false">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Buscar"
+          aria-label="Buscar en el blog"
+          x-model="query"
+          @input="search()"
+          @focus="open = query.length > 0"
+          @keydown.down.prevent="move(1)"
+          @keydown.up.prevent="move(-1)"
+          @keydown.enter.prevent="go()"
+          @keydown.escape="clear()"
+        >
+        <button type="button" class="search-clear" x-show="query.length > 0" x-cloak @click="clear()" aria-label="Clear search">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="search-results" x-show="open && results.length" x-cloak>
+          <div class="search-result-list">
+            <template x-for="(r, i) in visibleResults" :key="r.url">
+              <a :href="r.url"
+                 class="search-result-item"
+                 :class="{ 'is-selected': i === selected }"
+                 @mouseenter="selected = i">
+                <span class="search-result-icon" x-text="matchType(r) === 'title' ? '#' : '≡'"></span>
+                <span class="search-result-text">
+                  <span class="search-result-title" x-html="highlight(r.title)"></span>
+                  <span class="search-result-summary" x-text="r.summary"></span>
+                </span>
+                <svg class="search-result-enter" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6v6a2 2 0 0 1-2 2H6M10 10l-4 4 4 4"/></svg>
+              </a>
+            </template>
+          </div>
+          <template x-if="results.length > visibleResults.length">
+            <a href="#" class="search-see-all" @click.prevent="showAll = true">
+              Ver todos los resultados (<span x-text="results.length"></span>)
+            </a>
+          </template>
+        </div>
+        <div class="search-results" x-show="open && query.length > 0 && results.length === 0" x-cloak>
+          <div class="search-no-results">No se encontraron resultados</div>
+        </div>
+      </div>
+
+      <div class="sidebar-heading">Todas las entradas</div>
+      <div class="sidebar-year">2026</div>
+      <ul class="sidebar-list">
+        <li>
+          <a href="https://datacloudhero.com/es/blog/gtm-engineer-role/" class="sidebar-link ">GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer</a>
+        </li>
+        <li>
+          <a href="https://datacloudhero.com/es/blog/agent-memory-framework/" class="sidebar-link active">Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+    </div>
+  </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line/5 px-6 lg:px-16 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-7 w-auto" loading="lazy" />
+        </div>
+
+        <div class="mono text-xs text-faint text-center">
+          <div>© 2025 datacloudhero.com.</div>
+          <div>Ingeniería de Datos e IA.</div>
+          <div class="whitespace-nowrap mt-1">🇫🇷 Made in France</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="https://datacloudhero.com/es/#services" class="mono text-xs text-subtle hover:text-accent transition-colors">Servicios</a>
+          <a href="https://datacloudhero.com/es/#stack" class="mono text-xs text-subtle hover:text-accent transition-colors">Stack</a>
+          <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-xs text-subtle hover:text-accent transition-colors">Contacto</a>
+          <a href="https://datacloudhero.com/es/blog/" class="mono text-xs text-subtle hover:text-accent transition-colors">Blog</a>
+          <a href="https://datacloudhero.com/es/blog/cookie-policy/" class="mono text-xs text-subtle hover:text-accent transition-colors">Política de cookies</a>
+
+          <button
+            type="button"
+            data-cc="show-preferencesModal"
+            class="mono text-xs text-subtle hover:text-accent transition-colors bg-transparent border-0 p-0 cursor-pointer"
+          >
+            Preferencias de cookies
+          </button>
+        </div>
+      </div>
+    </footer><div x-data="contactForm(&#34;\u00a1Mensaje enviado! Gracias.&#34;, &#34;Algo sali\u00f3 mal. Escr\u00edbenos directamente por correo, por favor.&#34;)" @open-contact.window="openContactForm()">
+    <!-- CONTACT MODAL -->
+    <div
+      x-show="showContactForm"
+      x-cloak
+      @keydown.escape.window="showContactForm = false"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+    >
+      <div
+        @click.away="showContactForm = false"
+        class="w-full max-w-2xl rounded-[32px] border border-line/10 bg-panel/95 p-6 shadow-2xl backdrop-blur-xl"
+      >
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <div class="mono text-accent text-sm mb-2">Contacto</div>
+            <div class="text-3xl font-bold text-ink">Escríbenos</div>
+          </div>
+
+          <button type="button" @click="showContactForm = false" class="text-muted hover:text-ink text-2xl leading-none" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <template x-if="!submitted">
+        <form @submit.prevent="submitContact($event)" class="space-y-5">
+          <!-- Honeypot: hidden from real users, bots that auto-fill every input tend to fill it -->
+          <input
+            type="text"
+            name="company"
+            x-model="formData.company"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          />
+
+          <div class="grid gap-4">
+            <label class="block text-sm font-semibold text-copy">
+              Nombre
+              <input
+                name="name"
+                x-model="formData.name"
+                type="text"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Email
+              <input
+                name="email"
+                x-model="formData.email"
+                type="email"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Mensaje
+              <textarea
+                name="message"
+                x-model="formData.message"
+                required
+                rows="6"
+                class="mt-2 w-full rounded-3xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEM7muzBPUFiEYFd" :data-theme="document.documentElement.classList.contains('dark') ? 'dark' : 'light'" data-language="es"></div>
+
+          <div class="flex flex-col gap-3">
+            <button type="submit" :disabled="submitting" class="btn btn-glow btn-lg rounded-2xl px-6 font-bold disabled:opacity-60">
+              <span x-show="!submitting">Enviar</span>
+              <span x-show="submitting">Enviando…</span>
+            </button>
+
+            <div class="text-sm">
+              <p x-text="error" class="text-rose-400"></p>
+            </div>
+          </div>
+        </form>
+        </template>
+
+        <!-- Success is its own view, not a message left under the now-empty
+             form - x-if (not x-show) fully unmounts the form so its cleared
+             fields/honeypot/Turnstile widget aren't just hidden underneath.
+             openContactForm() (theme/js/contact-form.js) resets `submitted`
+             on the next open, and the modal auto-closes a couple seconds
+             after this view appears. -->
+        <template x-if="submitted">
+        <div class="text-center py-10">
+          <div class="mx-auto mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-accent">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p class="text-lg text-ink" x-text="status"></p>
+        </div>
+        </template>
+      </div>
+    </div>
+</div>
+  <script>
+    // "Copy page as Markdown" buttons (see partials/ai_actions.html).
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-markdown');
+        if (!btn) return;
+
+        var label = btn.closest('.ai-actions').querySelector('.js-ai-actions-label');
+        var resetLabel = label ? label.textContent : null;
+
+        fetch(btn.dataset.mdUrl)
+            .then(function (r) {
+                if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+                return r.text();
+            })
+            .then(function (text) { return navigator.clipboard.writeText(text); })
+            .then(function () {
+                if (label) label.textContent = "\u00a1Copiado!";
+            })
+            .catch(function (err) {
+                console.error('Copy as Markdown failed', err);
+                if (label) label.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                if (label) setTimeout(function () { label.textContent = resetLabel; }, 1800);
+            });
+    });
+
+    // Copy button on fenced code blocks (```python ... ``` etc.).
+    // Pelican's codehilite/Pygments output (see theme/css/pygments.css)
+    // is static <div class="highlight"><pre><code>...</code></pre></div>
+    // markup with no button of its own, so inject one into each block
+    // found inside article/page content.
+    document.querySelectorAll('.article-body .highlight, .content-wrap .highlight').forEach(function (block) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-btn js-copy-code';
+        btn.textContent = "Copiar";
+        block.appendChild(btn);
+    });
+
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-code');
+        if (!btn) return;
+
+        var resetLabel = "Copiar";
+        var code = btn.closest('.highlight').querySelector('code');
+
+        navigator.clipboard.writeText(code ? code.innerText : '')
+            .then(function () {
+                btn.textContent = "\u00a1Copiado!";
+                btn.classList.add('is-copied');
+            })
+            .catch(function (err) {
+                console.error('Copy code failed', err);
+                btn.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                setTimeout(function () {
+                    btn.textContent = resetLabel;
+                    btn.classList.remove('is-copied');
+                }, 1800);
+            });
+    });
+  </script>
+  <script type="module" src="https://datacloudhero.com/theme/js/cookieconsent-config.js"></script>
+</body>
+</html>

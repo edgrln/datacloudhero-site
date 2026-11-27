@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es" class="dark" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      var html = document.documentElement;
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+    })();
+    function toggleTheme() {
+      var html = document.documentElement;
+      var theme = html.classList.contains('dark') ? 'light' : 'dark';
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+  </script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Google Consent Mode v2 defaults: deny analytics/ads storage until
+      // the visitor accepts via the cookie banner (see
+      // theme/js/cookieconsent-config.js, which calls gtag('consent',
+      // 'update', ...) from CookieConsent's onFirstConsent/onChange).
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+      });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MKSVW4QD');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer · datacloudhero.com</title>
+
+  <link rel="canonical" href="https://datacloudhero.com/es/blog/gtm-engineer-role/">
+  <meta property="og:url" content="https://datacloudhero.com/es/blog/gtm-engineer-role/">
+  <link rel="alternate" hreflang="es" href="https://datacloudhero.com/es/blog/gtm-engineer-role/">
+  <link rel="alternate" hreflang="de" href="https://datacloudhero.com/de/blog/gtm-engineer-role/">
+  <link rel="alternate" hreflang="fr" href="https://datacloudhero.com/fr/blog/gtm-engineer-role/">
+  <link rel="alternate" hreflang="en" href="https://datacloudhero.com/blog/gtm-engineer-role/">
+<link rel="alternate" hreflang="x-default" href="https://datacloudhero.com/blog/gtm-engineer-role/">  <meta name="description" content="El término lo acuñó Clay en 2023 — repasamos las fuentes primarias para ver qué hace realmente un GTM engineer y en qué se diferencia de RevOps, del data engineering y del analytics engineering.">
+  <meta property="og:site_name" content="datacloudhero.com">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer">
+  <meta property="og:description" content="El término lo acuñó Clay en 2023 — repasamos las fuentes primarias para ver qué hace realmente un GTM engineer y en qué se diferencia de RevOps, del data engineering y del analytics engineering.">
+  <meta property="og:image" content="https://datacloudhero.com/es/blog/gtm-engineer-role/gtm-engineer-stack.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer">
+  <meta name="twitter:description" content="El término lo acuñó Clay en 2023 — repasamos las fuentes primarias para ver qué hace realmente un GTM engineer y en qué se diferencia de RevOps, del data engineering y del analytics engineering.">
+  <meta name="twitter:image" content="https://datacloudhero.com/es/blog/gtm-engineer-role/gtm-engineer-stack.png">
+
+  <link rel="icon" href="https://datacloudhero.com/theme/img/favicon.ico" type="image/x-icon" />
+  <link href="https://datacloudhero.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="datacloudhero.com Full Atom Feed">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/site.css?v=3d90076755">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/pygments.css?v=01d990f349">
+  <script>
+      function siteSearch() {
+          return {
+              query: '',
+              open: false,
+              results: [],
+              index: [],
+              selected: 0,
+              showAll: false,
+              init() {
+                  fetch('https://datacloudhero.com/blog/search-index.json')
+                      .then((r) => r.json())
+                      .then((data) => { this.index = data; })
+                      .catch(() => { this.index = []; });
+              },
+              search() {
+                  const q = this.query.trim().toLowerCase();
+                  this.open = q.length > 0;
+                  this.selected = 0;
+                  this.showAll = false;
+                  if (!q) { this.results = []; return; }
+                  this.results = this.index.filter((item) =>
+                      item.title.toLowerCase().includes(q) || (item.content || item.summary).toLowerCase().includes(q)
+                  );
+              },
+              get visibleResults() {
+                  return this.showAll ? this.results : this.results.slice(0, 6);
+              },
+              clear() {
+                  this.query = '';
+                  this.results = [];
+                  this.open = false;
+              },
+              matchType(item) {
+                  const q = this.query.trim().toLowerCase();
+                  return item.title.toLowerCase().includes(q) ? 'title' : 'content';
+              },
+              escapeHtml(str) {
+                  return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+              },
+              highlight(text) {
+                  const q = this.query.trim();
+                  const escaped = this.escapeHtml(text);
+                  if (!q) return escaped;
+                  const escapedQ = this.escapeHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  return escaped.replace(new RegExp('(' + escapedQ + ')', 'ig'), '<strong>$1</strong>');
+              },
+              move(delta) {
+                  if (!this.visibleResults.length) return;
+                  const max = this.visibleResults.length - 1;
+                  this.selected = Math.min(max, Math.max(0, this.selected + delta));
+              },
+              go() {
+                  const item = this.visibleResults[this.selected];
+                  if (item) window.location.href = item.url;
+              },
+          };
+      }
+
+      function infiniteScroll(nextUrl) {
+          return {
+              nextUrl: nextUrl || null,
+              loading: false,
+              init() {
+                  if (!this.nextUrl) return;
+                  const observer = new IntersectionObserver((entries) => {
+                      if (entries[0].isIntersecting) this.loadMore();
+                  });
+                  observer.observe(this.$refs.sentinel);
+              },
+              async loadMore() {
+                  if (this.loading || !this.nextUrl) return;
+                  this.loading = true;
+                  try {
+                      const res = await fetch(this.nextUrl);
+                      const html = await res.text();
+                      const doc = new DOMParser().parseFromString(html, 'text/html');
+                      const newPosts = doc.querySelectorAll('#post-list > article');
+                      const list = this.$refs.postList;
+                      newPosts.forEach((post) => list.appendChild(post));
+                      const pagination = doc.getElementById('pagination-data');
+                      this.nextUrl = pagination ? (pagination.dataset.nextUrl || null) : null;
+                  } catch (e) {
+                      this.nextUrl = null;
+                  } finally {
+                      this.loading = false;
+                  }
+              },
+          };
+      }
+  </script>
+  <script defer src="https://datacloudhero.com/theme/js/contact-form.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body
+  class="grid-bg"
+  x-data="{
+    menuOpen: false,
+  }"
+  x-init="
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  "
+>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSVW4QD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div class="navbar-custom py-4">
+    <div class="navbar-inner flex items-center justify-between">
+      <a href="https://datacloudhero.com/es/" class="text-xl font-bold tracking-tight flex items-center gap-2">
+        <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-8 w-auto" />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="https://datacloudhero.com/es/#services" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+        <a href="https://datacloudhero.com/es/#stack" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+        <a href="https://datacloudhero.com/es/#process" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+        <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+        <div class="relative" x-data="{ langMenuOpen: false }" @click.outside="langMenuOpen = false">
+          <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+            ES
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div x-show="langMenuOpen" x-cloak x-transition class="absolute right-0 mt-2 w-36 rounded-xl border border-line/10 bg-panel/95 backdrop-blur-xl shadow-2xl py-2 z-50">
+            <a href="https://datacloudhero.com/blog/gtm-engineer-role/" hreflang="en" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">English</a>
+            <a href="https://datacloudhero.com/fr/blog/gtm-engineer-role/" hreflang="fr" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Français</a>
+            <a href="https://datacloudhero.com/de/blog/gtm-engineer-role/" hreflang="de" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Deutsch</a>
+            <a href="https://datacloudhero.com/es/blog/gtm-engineer-role/" hreflang="es" class="block px-4 py-2 text-sm mono text-accent font-semibold">Español</a>
+          </div>
+        </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold mono">
+          Contáctanos
+        </a>
+      </nav>
+
+      <button
+        class="md:hidden text-muted hover:text-accent transition-colors"
+        type="button"
+        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen"
+        aria-label="Abrir menú"
+      >
+        <svg x-show="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+
+        <svg x-show="menuOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      x-show="menuOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="navbar-inner md:hidden mt-4 flex flex-col gap-4 border-t border-line/5 pt-4 pb-2"
+      x-cloak
+    >
+      <a href="https://datacloudhero.com/es/#services" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+      <a href="https://datacloudhero.com/es/#stack" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+      <a href="https://datacloudhero.com/es/#process" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+      <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+      <div x-data="{ langMenuOpen: false }">
+        <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+          ES
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div x-show="langMenuOpen" x-cloak x-transition class="flex flex-col gap-3 mt-3 pl-4 border-l border-line/10">
+          <a href="https://datacloudhero.com/blog/gtm-engineer-role/" hreflang="en" class="mono text-sm text-muted hover:text-accent transition-colors">English</a>
+          <a href="https://datacloudhero.com/fr/blog/gtm-engineer-role/" hreflang="fr" class="mono text-sm text-muted hover:text-accent transition-colors">Français</a>
+          <a href="https://datacloudhero.com/de/blog/gtm-engineer-role/" hreflang="de" class="mono text-sm text-muted hover:text-accent transition-colors">Deutsch</a>
+          <a href="https://datacloudhero.com/es/blog/gtm-engineer-role/" hreflang="es" class="mono text-sm text-accent font-semibold">Español</a>
+        </div>
+      </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white w-fit font-semibold mono">
+        Contáctanos
+      </a>
+    </div>
+  </div>
+  <main class="site-main">
+    <div class="site-container">
+<div class="flex flex-col gap-12 lg:flex-row lg:gap-16">
+  <div class="lg:w-3/4 min-w-0">
+    <div class="content-wrap">
+<article>
+  <header class="mb-10">
+    <div class="mono text-accent text-sm mb-5 flex items-center gap-3">
+      <span class="accent-line"></span>
+<a href="https://datacloudhero.com/blog/category/engineering/" class="hover:underline">Engineering</a>    </div>
+
+    <h1 class="text-3xl md:text-5xl font-extrabold text-ink leading-tight tracking-tight mb-5">GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer</h1>
+
+    <div class="mono text-xs text-subtle mb-8">
+      <time datetime="2026-09-15T10:00:00+02:00">Tue 15 September 2026</time>
+      · 8 min de lectura
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-6">
+      <div class="flex flex-wrap gap-6">
+<div class="flex items-center gap-3">
+  <img src="https://avatars.githubusercontent.com/u/78014277?v=4" alt="Edgar L" class="author-avatar" loading="lazy">
+  <div>
+    <div class="flex items-center gap-2">
+      <a href="https://datacloudhero.com/blog/author/edgar-l/" class="author-name font-semibold text-sm">Edgar L</a>
+    </div>
+<div class="text-xs text-subtle mt-0.5">Technical Content Writer — AI & Data</div>    <div class="flex gap-1.5 mt-1.5">
+      <a href="https://www.linkedin.com/in/edgarlakshin/" class="author-social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <a href="https://github.com/edgrln" class="author-social-icon" aria-label="GitHub" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.38 2.9-.39.98.01 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.6.23 2.77.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.41-5.28 5.69.42.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .3.21.66.8.55A10.53 10.53 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>      </div>
+<div class="ai-actions relative" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false">
+  <button type="button" @click="open = !open" :aria-expanded="open"
+          class="btn btn-sm btn-ghost border border-line/10 rounded-lg mono font-normal text-soft hover:border-accent/30">
+    <span class="js-ai-actions-label">Copiar página</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <ul class="menu-panel" style="left: auto; right: 0;" x-show="open" x-cloak x-transition>
+    <li><button class="menu-item js-copy-markdown" type="button" data-md-url="https://datacloudhero.com/es/blog/gtm-engineer-role.md">Copiar página como Markdown</button></li>
+    <li><a class="menu-item" href="https://datacloudhero.com/es/blog/gtm-engineer-role.md" target="_blank" rel="noopener">Ver como Markdown</a></li>
+    <li><div class="menu-divider"></div></li>
+    <li><a class="menu-item" href="https://chatgpt.com/?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/gtm-engineer-role/" target="_blank" rel="noopener">Abrir en ChatGPT</a></li>
+    <li><a class="menu-item" href="https://claude.ai/new?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/gtm-engineer-role/" target="_blank" rel="noopener">Abrir en Claude</a></li>
+    <li><a class="menu-item" href="https://www.perplexity.ai/search?q=Read%20and%20summarize%20this%20article%3A%20https%3A//datacloudhero.com/es/blog/gtm-engineer-role/" target="_blank" rel="noopener">Abrir en Perplexity</a></li>
+  </ul>
+</div>    </div>
+  </header>
+
+  <div class="article-body prose prose-lg max-w-none">
+    <p>El término «GTM Engineer» lo acuñó Clay en 2023, y desde entonces se ha consolidado en empresas como Cursor, Lovable y Webflow — <a href="https://www.clay.com/blog/gtm-engineering">como escribe la propia Clay en su blog</a>. Según <a href="https://pipeline.zoominfo.com/sales/gtm-engineer-hype">ZoomInfo Pipeline</a> (citando <a href="https://bloomberry.com/blog/i-analyzed-1000-gtm-engineering-jobs-here-is-what-i-learned/">el análisis de Bloomberry sobre 1.000 ofertas de empleo</a>), el número de puestos abiertos de GTM Engineer creció un 205 % interanual, se publican unas 100 ofertas nuevas al mes, y los rangos salariales van de los 85.000 $ para un puesto junior a los 241.000 $ para uno senior. La propia Bloomberry no indica explícitamente la geografía de la muestra, pero las cifras están en dólares, y entre los empleadores mencionados están Vercel, OpenAI, Ramp y Clay — así que en esencia se trata del mercado estadounidense.</p>
+<h2>Qué hace realmente un GTM Engineer</h2>
+<p><a href="https://www.clay.com/guides/gtm-engineering">La guía de Clay</a> define el GTM engineering como «la práctica de construir sistemas de revenue automatizados usando IA, datos y automatización de workflows — en lugar de gestionar el go-to-market de forma manual». La unidad de trabajo no es una tarea aislada, sino un sistema que funciona a escala.</p>
+<p>Clay describe tres capas de trabajo secuenciales:</p>
+<ol>
+<li><strong>Fundamento de datos</strong> — registros de CRM limpios y deduplicados.</li>
+<li><strong>Modelado de datos</strong> — modelos de scoring, atributos de ICP, datos de investigación.</li>
+<li><strong>Activación de datos</strong> — los datos disparan acciones de revenue concretas (enrutamiento de leads, outreach personalizado, una campaña).</li>
+</ol>
+<p>Un ejemplo práctico de la guía de Clay: un workflow rastrea señales de rondas de financiación, incorpora la nueva empresa a Clay, la enriquece con datos firmográficos y de contacto, la puntúa según el ICP, genera una primera línea de email personalizada mediante un LLM — y envía las mejores cuentas al CRM y a una secuencia de outbound.</p>
+<p>En su descripción del rol, <a href="https://www.apollo.io/insights/gtm-engineer-job-description">Apollo.io</a> identifica cinco áreas de responsabilidad: enriquecimiento de datos y control de calidad, modelos de scoring, automatización de workflows (enrutamiento de leads, disparadores de secuencias), configuración de agentes de IA para investigación y generación de contenido, y analítica/dashboards.</p>
+<h2>Qué habilidades se necesitan</h2>
+<p>Clay lo plantea así: un GTM engineer es un «híbrido: mitad persona con mentalidad comercial, mitad builder» (<a href="https://www.clay.com/blog/gtm-engineering">fuente</a>). No se requiere código de producción — lo que hace falta, según la propia guía, es «la disposición a entender una herramienta a base de probarla» (<a href="https://www.clay.com/guides/gtm-engineering">fuente</a>). Al mismo tiempo, la lista de habilidades técnicas de Apollo.io menciona SQL, JavaScript/Python para integraciones personalizadas, trabajo con APIs y data warehouses, configuración de CRM, y prompt engineering para la orquestación de IA.</p>
+<p>El stack que menciona Clay: un CRM (Salesforce), un data warehouse (Snowflake/BigQuery) y una capa «motor» — la propia Clay, que reúne en un solo sitio el enriquecimiento, el scoring, la investigación y la activación.</p>
+<h2>No es lo mismo que un GTM Analyst</h2>
+<p>Los nombres suenan parecido, pero los roles son distintos — y el rol de GTM Analyst apareció mucho antes. Según un análisis de ofertas de empleo de <a href="https://www.productroadmap.ai/go-to-market/what-is-a-go-to-market-strategy-analyst-job-description">productroadmap.ai</a>, un go-to-market (strategy) analyst trabaja en el análisis del mercado y del comportamiento del comprador, el pricing y el posicionamiento del producto, la inteligencia competitiva y el modelado financiero — un rol estratégico y de investigación, sin código ni automatización. El GTM Engineer, en cambio, apenas define la estrategia por sí mismo — implementa hipótesis ya decididas, en forma de sistemas que funcionan. Simplificando: el GTM Analyst responde a «qué hacer en el mercado», el GTM Engineer responde a «cómo automatizarlo».</p>
+<h2>GTM Engineer vs RevOps</h2>
+<p>Antes de comparar ambos roles — qué es RevOps, por si es la primera vez que se oye hablar de él. Según <a href="https://www.salesforce.com/sales/revenue-lifecycle-management/what-is-revenue-operations/">la definición de Salesforce</a>, revenue operations es «un marco estratégico que unifica toda la actividad de revenue de una empresa»: marketing, ventas, customer success y, a menudo, finanzas operan sobre procesos compartidos y una única pila tecnológica, en lugar de departamentos aislados con datos y objetivos incompatibles. En la práctica, un equipo de RevOps consolida los datos de revenue, integra sistemas de CRM/marketing/ERP, automatiza tareas rutinarias como el traspaso de un lead entre departamentos o la facturación, y se asegura de que todos los equipos de revenue avancen en la misma dirección. Se trata ya de un puesto establecido y estándar en la mayoría de las empresas B2B — a diferencia de GTM Engineer, que solo apareció en 2023.</p>
+<p>Esta es la comparación más cercana y frecuente con GTM Engineer — muchos GTM engineers empiezan precisamente en RevOps. <a href="https://www.clay.com/guides/gtm-engineering">Clay plantea la diferencia así</a>: «RevOps mantiene funcionando el proceso existente. El GTM engineering cambia el proceso en sí». <a href="https://www.salesforge.ai/blog/gtm-engineering-vs-revops">Salesforge.ai</a> lo desglosa en estos ejes:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>RevOps</th>
+<th>GTM Engineer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Punto de partida</td>
+<td>Proceso existente: «qué está bloqueando el funnel»</td>
+<td>Hoja en blanco: «qué sistema construir»</td>
+</tr>
+<tr>
+<td>Se encarga de</td>
+<td>Enrutamiento de leads, SLAs, forecasting, documentación de procesos</td>
+<td>Pipelines de datos, arquitectura del stack, integraciones de API, automatización</td>
+</tr>
+<tr>
+<td>Habilidades</td>
+<td>Operaciones de negocio, modelado financiero, Salesforce/HubSpot, SQL para reporting</td>
+<td>SQL, Python, diseño de API, ingeniería de datos</td>
+</tr>
+<tr>
+<td>Métrica de éxito</td>
+<td>Eficiencia del funnel, cumplimiento de SLA, precisión del forecast</td>
+<td>Uptime del sistema, fiabilidad de las integraciones, precisión de los datos, cobertura de automatización</td>
+</tr>
+</tbody>
+</table>
+<h2>GTM Engineer vs Data Engineer vs Analytics Engineer</h2>
+<p>Aquí conviene apoyarse en las fuentes primarias de estos roles en sí, no solo en el marketing propio del GTM engineering.</p>
+<p><strong>Data Engineer.</strong> Según <a href="https://www.splunk.com/en_us/blog/learn/data-engineer-role-responsibilities.html">la definición de Splunk</a>, un data engineer «diseña, construye y mantiene sistemas y pipelines de datos escalables» que permiten a una empresa recopilar, almacenar y procesar grandes volúmenes de datos. Áreas clave: arquitectura de datos, recopilación y validación de datos de distintas fuentes, automatización de procesos, infraestructura para data scientists y analistas. Herramientas: Python/Java/Scala/SQL, Hadoop/Kafka, plataformas cloud, Airflow.</p>
+<p><strong>Analytics Engineer.</strong> El rol tomó forma hacia 2018 en la comunidad en torno a dbt (entonces todavía Fishtown Analytics) — los data warehouses en la nube (Redshift, BigQuery, Snowflake) y los servicios de carga de datos (Stitch, Fivetran) abarataron el almacenamiento y simplificaron la extracción, mientras que a los usuarios de negocio cada vez les faltaban más las habilidades para trabajar directamente con datos crudos. Según <a href="https://www.getdbt.com/blog/what-is-analytics-engineering">la definición de dbt Labs</a>, un analytics engineer «proporciona a los usuarios finales datasets limpios modelando los datos para que puedan responder ellos mismos a sus propias preguntas» — escribe transformaciones (mayoritariamente en SQL vía dbt), testea los datos, documenta y mantiene la estructura del warehouse. La diferencia con un data engineer, según ese mismo artículo de dbt: el data engineer construye infraestructura y pipelines, el analytics engineer construye transformación y documentación sobre datos que ya han sido recopilados.</p>
+<p><strong>GTM Engineer.</strong> A diferencia de ambos roles, la unidad de trabajo no es un dataset ni un pipeline, sino todo un sistema de revenue: desde los datos hasta una acción concreta (un email, una llamada, un registro en el CRM) que hace avanzar un deal. Un GTM engineer puede usar SQL y APIs igual que un data o analytics engineer, pero el destinatario final de su trabajo no es un analista ni un dashboard — es un proceso de sales/marketing, y la métrica no es la calidad de los datos en sí misma, sino las reuniones y los deals.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Data Engineer</th>
+<th>Analytics Engineer</th>
+<th>GTM Engineer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qué construye</td>
+<td>Pipelines e infraestructura de datos</td>
+<td>Transformaciones y datasets limpios sobre el warehouse</td>
+<td>Workflows de revenue automatizados</td>
+</tr>
+<tr>
+<td>Para quién</td>
+<td>Data scientists, analistas, toda la empresa</td>
+<td>Usuarios de negocio, self-service BI</td>
+<td>Sales, marketing, RevOps</td>
+</tr>
+<tr>
+<td>Herramienta principal</td>
+<td>Airflow, Spark/Hadoop, warehouses en la nube</td>
+<td>dbt, SQL</td>
+<td>Clay, CRM, integraciones de API, LLMs</td>
+</tr>
+<tr>
+<td>Métrica</td>
+<td>Fiabilidad y disponibilidad de los datos</td>
+<td>Calidad y documentación de los datasets</td>
+<td>Pipeline, reuniones, deals</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Diagrama: el stack de roles Data Engineer → Analytics Engineer → GTM Engineer, desde los datos crudos hasta una acción de revenue" src="https://datacloudhero.com/es/blog/gtm-engineer-role/gtm-engineer-stack.png"></p>
+<h2>En resumen</h2>
+<p>GTM Engineer no sustituye al data ni al analytics engineer, y tampoco es «más técnico» — es funcionalmente una versión de RevOps orientada a la velocidad y al impacto en el revenue: usa el mismo conjunto de herramientas (SQL, APIs, modelos de datos) que los roles de ingeniería de datos, pero el producto de su trabajo no es un dataset — es una pieza funcional del proceso de go-to-market. El rol es joven (2023) y todavía no está tan estandarizado como el data o el analytics engineering — así que el alcance real del trabajo de un GTM engineer varía mucho según la empresa, a diferencia de los roles, mucho más establecidos, de data y analytics engineer.</p>
+<hr>
+<p><em>Fuentes: <a href="https://www.clay.com/blog/gtm-engineering">Clay — GTM Engineering (blog)</a>, <a href="https://www.clay.com/guides/gtm-engineering">Clay — The Complete Guide to GTM Engineering</a>, <a href="https://www.apollo.io/insights/gtm-engineer-job-description">Apollo.io — GTM Engineer Job Description</a>, <a href="https://pipeline.zoominfo.com/sales/gtm-engineer-hype">ZoomInfo Pipeline — What Is GTM Engineering?</a>, <a href="https://www.salesforge.ai/blog/gtm-engineering-vs-revops">Salesforge.ai — GTM Engineering vs RevOps</a>, <a href="https://www.salesforce.com/sales/revenue-lifecycle-management/what-is-revenue-operations/">Salesforce — What Is Revenue Operations (RevOps)?</a>, <a href="https://www.productroadmap.ai/go-to-market/what-is-a-go-to-market-strategy-analyst-job-description">productroadmap.ai — What Is a Go-To-Market Strategy Analyst Job Description?</a>, <a href="https://www.getdbt.com/blog/what-is-analytics-engineering">dbt Labs — What is analytics engineering?</a>, <a href="https://www.splunk.com/en_us/blog/learn/data-engineer-role-responsibilities.html">Splunk — The Data Engineer Role, Explained</a>.</em></p>
+  </div>
+
+  <div class="mt-10 flex flex-wrap items-center gap-2">
+    <span class="mono text-xs text-subtle mr-1">Etiquetas:</span>
+    <a href="https://datacloudhero.com/blog/tag/gtm-engineer/" class="stack-badge">GTM Engineer</a>
+    <a href="https://datacloudhero.com/blog/tag/revops/" class="stack-badge">RevOps</a>
+    <a href="https://datacloudhero.com/blog/tag/data-engineer/" class="stack-badge">Data Engineer</a>
+    <a href="https://datacloudhero.com/blog/tag/analytics-engineer/" class="stack-badge">Analytics Engineer</a>
+    <a href="https://datacloudhero.com/blog/tag/career/" class="stack-badge">career</a>
+  </div>
+
+<aside class="not-prose cta-section p-8 md:p-12 text-center my-16">
+  <div class="mono text-accent text-sm mb-4">¿Listo para empezar?</div>
+  <div class="text-3xl md:text-4xl font-bold text-ink mb-5 leading-tight">
+    Construyamos algo grande
+  </div>
+  <p class="text-muted max-w-lg mx-auto mb-8 leading-relaxed">
+    Cuéntanos tu desafío de plataforma de datos: pipelines, CI/CD, fiabilidad, arquitectura o costes cloud. Tendrás una conversación técnica clara, sin discurso de ventas.
+  </p>
+  <button type="button" @click="$dispatch('open-contact')" class="btn btn-glow btn-lg rounded-xl px-10 font-bold">
+    Escríbenos ✉
+  </button>
+  <div class="mono text-xs text-faint mt-8">
+    <a href="mailto:info@datacloudhero.com" class="hover:text-accent">info@datacloudhero.com</a>
+    · Colaboraciones de asesoría seleccionadas · En remoto, en toda Europa
+  </div>
+</aside></article>
+
+<a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-muted hover:text-accent transition-colors">← Volver a todas las entradas</a>
+    </div>
+  </div>
+
+  <aside class="lg:w-1/4 lg:order-first">
+    <div class="sidebar-sticky">
+      <div class="search-box mb-10" x-data="siteSearch()" x-init="init()" @click.away="open = false">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Buscar"
+          aria-label="Buscar en el blog"
+          x-model="query"
+          @input="search()"
+          @focus="open = query.length > 0"
+          @keydown.down.prevent="move(1)"
+          @keydown.up.prevent="move(-1)"
+          @keydown.enter.prevent="go()"
+          @keydown.escape="clear()"
+        >
+        <button type="button" class="search-clear" x-show="query.length > 0" x-cloak @click="clear()" aria-label="Clear search">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="search-results" x-show="open && results.length" x-cloak>
+          <div class="search-result-list">
+            <template x-for="(r, i) in visibleResults" :key="r.url">
+              <a :href="r.url"
+                 class="search-result-item"
+                 :class="{ 'is-selected': i === selected }"
+                 @mouseenter="selected = i">
+                <span class="search-result-icon" x-text="matchType(r) === 'title' ? '#' : '≡'"></span>
+                <span class="search-result-text">
+                  <span class="search-result-title" x-html="highlight(r.title)"></span>
+                  <span class="search-result-summary" x-text="r.summary"></span>
+                </span>
+                <svg class="search-result-enter" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6v6a2 2 0 0 1-2 2H6M10 10l-4 4 4 4"/></svg>
+              </a>
+            </template>
+          </div>
+          <template x-if="results.length > visibleResults.length">
+            <a href="#" class="search-see-all" @click.prevent="showAll = true">
+              Ver todos los resultados (<span x-text="results.length"></span>)
+            </a>
+          </template>
+        </div>
+        <div class="search-results" x-show="open && query.length > 0 && results.length === 0" x-cloak>
+          <div class="search-no-results">No se encontraron resultados</div>
+        </div>
+      </div>
+
+      <div class="sidebar-heading">Todas las entradas</div>
+      <div class="sidebar-year">2026</div>
+      <ul class="sidebar-list">
+        <li>
+          <a href="https://datacloudhero.com/es/blog/gtm-engineer-role/" class="sidebar-link active">GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer</a>
+        </li>
+        <li>
+          <a href="https://datacloudhero.com/es/blog/agent-memory-framework/" class="sidebar-link ">Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+    </div>
+  </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line/5 px-6 lg:px-16 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-7 w-auto" loading="lazy" />
+        </div>
+
+        <div class="mono text-xs text-faint text-center">
+          <div>© 2025 datacloudhero.com.</div>
+          <div>Ingeniería de Datos e IA.</div>
+          <div class="whitespace-nowrap mt-1">🇫🇷 Made in France</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="https://datacloudhero.com/es/#services" class="mono text-xs text-subtle hover:text-accent transition-colors">Servicios</a>
+          <a href="https://datacloudhero.com/es/#stack" class="mono text-xs text-subtle hover:text-accent transition-colors">Stack</a>
+          <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-xs text-subtle hover:text-accent transition-colors">Contacto</a>
+          <a href="https://datacloudhero.com/es/blog/" class="mono text-xs text-subtle hover:text-accent transition-colors">Blog</a>
+          <a href="https://datacloudhero.com/es/blog/cookie-policy/" class="mono text-xs text-subtle hover:text-accent transition-colors">Política de cookies</a>
+
+          <button
+            type="button"
+            data-cc="show-preferencesModal"
+            class="mono text-xs text-subtle hover:text-accent transition-colors bg-transparent border-0 p-0 cursor-pointer"
+          >
+            Preferencias de cookies
+          </button>
+        </div>
+      </div>
+    </footer><div x-data="contactForm(&#34;\u00a1Mensaje enviado! Gracias.&#34;, &#34;Algo sali\u00f3 mal. Escr\u00edbenos directamente por correo, por favor.&#34;)" @open-contact.window="openContactForm()">
+    <!-- CONTACT MODAL -->
+    <div
+      x-show="showContactForm"
+      x-cloak
+      @keydown.escape.window="showContactForm = false"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+    >
+      <div
+        @click.away="showContactForm = false"
+        class="w-full max-w-2xl rounded-[32px] border border-line/10 bg-panel/95 p-6 shadow-2xl backdrop-blur-xl"
+      >
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <div class="mono text-accent text-sm mb-2">Contacto</div>
+            <div class="text-3xl font-bold text-ink">Escríbenos</div>
+          </div>
+
+          <button type="button" @click="showContactForm = false" class="text-muted hover:text-ink text-2xl leading-none" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <template x-if="!submitted">
+        <form @submit.prevent="submitContact($event)" class="space-y-5">
+          <!-- Honeypot: hidden from real users, bots that auto-fill every input tend to fill it -->
+          <input
+            type="text"
+            name="company"
+            x-model="formData.company"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          />
+
+          <div class="grid gap-4">
+            <label class="block text-sm font-semibold text-copy">
+              Nombre
+              <input
+                name="name"
+                x-model="formData.name"
+                type="text"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Email
+              <input
+                name="email"
+                x-model="formData.email"
+                type="email"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Mensaje
+              <textarea
+                name="message"
+                x-model="formData.message"
+                required
+                rows="6"
+                class="mt-2 w-full rounded-3xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEM7muzBPUFiEYFd" :data-theme="document.documentElement.classList.contains('dark') ? 'dark' : 'light'" data-language="es"></div>
+
+          <div class="flex flex-col gap-3">
+            <button type="submit" :disabled="submitting" class="btn btn-glow btn-lg rounded-2xl px-6 font-bold disabled:opacity-60">
+              <span x-show="!submitting">Enviar</span>
+              <span x-show="submitting">Enviando…</span>
+            </button>
+
+            <div class="text-sm">
+              <p x-text="error" class="text-rose-400"></p>
+            </div>
+          </div>
+        </form>
+        </template>
+
+        <!-- Success is its own view, not a message left under the now-empty
+             form - x-if (not x-show) fully unmounts the form so its cleared
+             fields/honeypot/Turnstile widget aren't just hidden underneath.
+             openContactForm() (theme/js/contact-form.js) resets `submitted`
+             on the next open, and the modal auto-closes a couple seconds
+             after this view appears. -->
+        <template x-if="submitted">
+        <div class="text-center py-10">
+          <div class="mx-auto mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-accent">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p class="text-lg text-ink" x-text="status"></p>
+        </div>
+        </template>
+      </div>
+    </div>
+</div>
+  <script>
+    // "Copy page as Markdown" buttons (see partials/ai_actions.html).
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-markdown');
+        if (!btn) return;
+
+        var label = btn.closest('.ai-actions').querySelector('.js-ai-actions-label');
+        var resetLabel = label ? label.textContent : null;
+
+        fetch(btn.dataset.mdUrl)
+            .then(function (r) {
+                if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+                return r.text();
+            })
+            .then(function (text) { return navigator.clipboard.writeText(text); })
+            .then(function () {
+                if (label) label.textContent = "\u00a1Copiado!";
+            })
+            .catch(function (err) {
+                console.error('Copy as Markdown failed', err);
+                if (label) label.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                if (label) setTimeout(function () { label.textContent = resetLabel; }, 1800);
+            });
+    });
+
+    // Copy button on fenced code blocks (```python ... ``` etc.).
+    // Pelican's codehilite/Pygments output (see theme/css/pygments.css)
+    // is static <div class="highlight"><pre><code>...</code></pre></div>
+    // markup with no button of its own, so inject one into each block
+    // found inside article/page content.
+    document.querySelectorAll('.article-body .highlight, .content-wrap .highlight').forEach(function (block) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-btn js-copy-code';
+        btn.textContent = "Copiar";
+        block.appendChild(btn);
+    });
+
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-code');
+        if (!btn) return;
+
+        var resetLabel = "Copiar";
+        var code = btn.closest('.highlight').querySelector('code');
+
+        navigator.clipboard.writeText(code ? code.innerText : '')
+            .then(function () {
+                btn.textContent = "\u00a1Copiado!";
+                btn.classList.add('is-copied');
+            })
+            .catch(function (err) {
+                console.error('Copy code failed', err);
+                btn.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                setTimeout(function () {
+                    btn.textContent = resetLabel;
+                    btn.classList.remove('is-copied');
+                }, 1800);
+            });
+    });
+  </script>
+  <script type="module" src="https://datacloudhero.com/theme/js/cookieconsent-config.js"></script>
+</body>
+</html>

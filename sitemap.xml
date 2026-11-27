@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+xmlns:xhtml="http://www.w3.org/1999/xhtml"
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+<loc>https://datacloudhero.com/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/"/>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/agent-memory-framework/</loc>
+<lastmod>2026-09-14T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/agent-memory-framework/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/archives.html</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/author/edgar-l/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/authors.html</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/categories.html</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/category/ai-agents/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/category/engineering/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/cookie-policy/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/cookie-policy/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/gtm-engineer-role/</loc>
+<lastmod>2026-09-15T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/gtm-engineer-role/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/ai-agents/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/analytics-engineer/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/anthropic/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/architecture/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/career/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/data-engineer/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/gtm-engineer/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/langchain/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/memory/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tag/revops/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/blog/tags.html</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/de/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/de/blog/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/de/blog/agent-memory-framework/</loc>
+<lastmod>2026-09-14T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/agent-memory-framework/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/de/blog/cookie-policy/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/cookie-policy/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/de/blog/gtm-engineer-role/</loc>
+<lastmod>2026-09-15T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/gtm-engineer-role/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/es/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/"/>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/es/blog/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/es/blog/agent-memory-framework/</loc>
+<lastmod>2026-09-14T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/agent-memory-framework/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/es/blog/cookie-policy/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/cookie-policy/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/es/blog/gtm-engineer-role/</loc>
+<lastmod>2026-09-15T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="fr" ref="https://datacloudhero.com/fr/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/gtm-engineer-role/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/fr/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/"/>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/fr/blog/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/fr/blog/agent-memory-framework/</loc>
+<lastmod>2026-09-14T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/agent-memory-framework/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/agent-memory-framework/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/fr/blog/cookie-policy/</loc>
+<lastmod>2026-11-27T20:48:28-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/cookie-policy/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/cookie-policy/"/>
+</url>
+
+<url>
+<loc>https://datacloudhero.com/fr/blog/gtm-engineer-role/</loc>
+<lastmod>2026-09-15T10:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+<xhtml:link rel="alternate" hreflang="de" ref="https://datacloudhero.com/de/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="es" ref="https://datacloudhero.com/es/blog/gtm-engineer-role/"/>
+<xhtml:link rel="alternate" hreflang="en" ref="https://datacloudhero.com/blog/gtm-engineer-role/"/>
+</url>
+
+</urlset>

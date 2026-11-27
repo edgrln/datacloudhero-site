@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="de" class="dark" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      var html = document.documentElement;
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+    })();
+    function toggleTheme() {
+      var html = document.documentElement;
+      var theme = html.classList.contains('dark') ? 'light' : 'dark';
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+  </script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Google Consent Mode v2 defaults: deny analytics/ads storage until
+      // the visitor accepts via the cookie banner (see
+      // theme/js/cookieconsent-config.js, which calls gtag('consent',
+      // 'update', ...) from CookieConsent's onFirstConsent/onChange).
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+      });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MKSVW4QD');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>datacloudhero.com - Data- & KI-Engineering</title>
+
+  <meta name="description" content="Data- &amp; KI-Engineering auf Google Cloud: Datenpipelines, Cloud-Datenplattformen, GenAI-Anwendungen, BI und Team-Schulungen.">
+  <link rel="canonical" href="https://datacloudhero.com/de/">
+  <link rel="alternate" hreflang="en" href="https://datacloudhero.com/">
+  <link rel="alternate" hreflang="fr" href="https://datacloudhero.com/fr/">
+  <link rel="alternate" hreflang="de" href="https://datacloudhero.com/de/">
+  <link rel="alternate" hreflang="es" href="https://datacloudhero.com/es/">
+  <link rel="alternate" hreflang="x-default" href="https://datacloudhero.com/">
+
+  <meta property="og:site_name" content="datacloudhero.com">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datacloudhero.com/de/">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:image" content="https://datacloudhero.com/theme/img/social-card.png">
+  <meta property="og:title" content="datacloudhero.com - Data- &amp; KI-Engineering">
+  <meta property="og:description" content="Data- &amp; KI-Engineering auf Google Cloud: Datenpipelines, Cloud-Datenplattformen, GenAI-Anwendungen, BI und Team-Schulungen.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://datacloudhero.com/theme/img/social-card.png">
+  <meta name="twitter:title" content="datacloudhero.com - Data- &amp; KI-Engineering">
+  <meta name="twitter:description" content="Data- &amp; KI-Engineering auf Google Cloud: Datenpipelines, Cloud-Datenplattformen, GenAI-Anwendungen, BI und Team-Schulungen.">
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://datacloudhero.com/#organization", "name": "datacloudhero.com", "url": "https://datacloudhero.com/", "logo": "https://datacloudhero.com/theme/img/logo.svg", "email": "info@datacloudhero.com", "description": "Data- & KI-Engineering auf Google Cloud: Datenpipelines, Cloud-Datenplattformen, GenAI-Anwendungen, BI und Team-Schulungen.", "areaServed": "Europe"}, {"@type": "WebSite", "@id": "https://datacloudhero.com/#website", "url": "https://datacloudhero.com/", "name": "datacloudhero.com", "inLanguage": "de", "publisher": {"@id": "https://datacloudhero.com/#organization"}}, {"@type": "FAQPage", "inLanguage": "de", "mainEntity": [{"@type": "Question", "name": "\u00dcbernehmen Sie Vollzeit-Projekte?", "acceptedAnswer": {"@type": "Answer", "text": "Ich konzentriere mich auf ausgew\u00e4hlte, klar umrissene Beratungs- und Engineering-Projekte mit klaren Meilensteinen und technischem Ergebnis."}}, {"@type": "Question", "name": "Arbeiten Sie mit Azure, Google Cloud oder AWS?", "acceptedAnswer": {"@type": "Answer", "text": "Der Schwerpunkt liegt auf Google-Cloud-Datenplattformen: Pipelines, Warehouse- und Lake-Architektur, CI/CD, Zuverl\u00e4ssigkeit und Kosten."}}, {"@type": "Question", "name": "Was umfasst ein Plattform-Review?", "acceptedAnswer": {"@type": "Answer", "text": "Architektur-Review, Bewertung von Pipeline- und Release-Prozess, L\u00fccken im Monitoring, Kosten- und Performance-Risiken sowie eine praxisnahe Verbesserungs-Roadmap."}}, {"@type": "Question", "name": "K\u00f6nnen Sie helfen, ohne unseren Stack zu ersetzen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Ziel ist meist, bestehende Systeme zu stabilisieren und zu verbessern, statt alles von Grund auf neu zu bauen."}}, {"@type": "Question", "name": "Arbeiten Sie remote?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Remote-first, europaweit, mit asynchroner Kommunikation und geplanten Review-Calls."}}]}]}</script>
+
+  <link rel="icon" href="https://datacloudhero.com/theme/img/favicon.ico" type="image/x-icon" />
+  <link href="https://datacloudhero.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="datacloudhero.com Full Atom Feed">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/site.css?v=3d90076755">
+
+  <script defer src="https://datacloudhero.com/theme/js/contact-form.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body
+  class="grid-bg"
+  x-data="{
+    menuOpen: false,
+  }"
+  x-init="
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  "
+>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSVW4QD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div class="navbar-custom py-4">
+    <div class="navbar-inner flex items-center justify-between">
+      <a href="https://datacloudhero.com/de/" class="text-xl font-bold tracking-tight flex items-center gap-2">
+        <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-8 w-auto" />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#services" class="mono text-sm text-muted hover:text-accent transition-colors">Services</a>
+        <a href="#stack" class="mono text-sm text-muted hover:text-accent transition-colors">Tech-Stack</a>
+        <a href="#process" class="mono text-sm text-muted hover:text-accent transition-colors">Vorgehen</a>
+        <a href="#contact"  class="mono text-sm text-muted hover:text-accent transition-colors">Kontakt</a>
+        <a href="https://datacloudhero.com/de/blog/" class="mono text-sm text-muted hover:text-accent transition-colors">Blog</a>
+        <div class="relative" x-data="{ langMenuOpen: false }" @click.outside="langMenuOpen = false">
+          <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+            DE
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div x-show="langMenuOpen" x-cloak x-transition class="absolute right-0 mt-2 w-36 rounded-xl border border-line/10 bg-panel/95 backdrop-blur-xl shadow-2xl py-2 z-50">
+            <a href="https://datacloudhero.com/" hreflang="en" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">English</a>
+            <a href="https://datacloudhero.com/fr/" hreflang="fr" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Français</a>
+            <a href="https://datacloudhero.com/de/" hreflang="de" class="block px-4 py-2 text-sm mono text-accent font-semibold">Deutsch</a>
+            <a href="https://datacloudhero.com/es/" hreflang="es" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Español</a>
+          </div>
+        </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Helles/dunkles Design umschalten" title="Helles/dunkles Design umschalten">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>        <a href="#contact"  class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold mono">
+          Kontakt aufnehmen
+        </a>
+      </nav>
+
+      <button
+        class="md:hidden text-muted hover:text-accent transition-colors"
+        type="button"
+        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen"
+        aria-label="Menü öffnen"
+      >
+        <svg x-show="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+
+        <svg x-show="menuOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      x-show="menuOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="navbar-inner md:hidden mt-4 flex flex-col gap-4 border-t border-line/5 pt-4 pb-2"
+      x-cloak
+    >
+      <a href="#services" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Services</a>
+      <a href="#stack" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Tech-Stack</a>
+      <a href="#process" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Vorgehen</a>
+      <a href="#contact" @click="menuOpen=false"  class="mono text-sm text-muted hover:text-accent transition-colors">Kontakt</a>
+      <a href="https://datacloudhero.com/de/blog/" class="mono text-sm text-muted hover:text-accent transition-colors">Blog</a>
+      <div x-data="{ langMenuOpen: false }">
+        <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+          DE
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div x-show="langMenuOpen" x-cloak x-transition class="flex flex-col gap-3 mt-3 pl-4 border-l border-line/10">
+          <a href="https://datacloudhero.com/" hreflang="en" class="mono text-sm text-muted hover:text-accent transition-colors">English</a>
+          <a href="https://datacloudhero.com/fr/" hreflang="fr" class="mono text-sm text-muted hover:text-accent transition-colors">Français</a>
+          <a href="https://datacloudhero.com/de/" hreflang="de" class="mono text-sm text-accent font-semibold">Deutsch</a>
+          <a href="https://datacloudhero.com/es/" hreflang="es" class="mono text-sm text-muted hover:text-accent transition-colors">Español</a>
+        </div>
+      </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Helles/dunkles Design umschalten" title="Helles/dunkles Design umschalten">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>      <a href="#contact" @click="menuOpen=false"  class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white w-fit font-semibold mono">
+        Kontakt aufnehmen
+      </a>
+    </div>
+  </div>
+  <div class="page-wrapper" style="padding-top: 72px;">
+    <!-- HERO -->
+    <section class="relative min-h-[92vh] flex items-center px-6 lg:px-16 pt-20 pb-16 overflow-hidden">
+      <div class="blob1"></div>
+      <div class="blob2"></div>
+
+      <div class="relative z-10 w-full max-w-6xl mx-auto flex items-center justify-between gap-12">
+      <div class="min-w-0 max-w-5xl">
+        <div class="mono text-accent text-sm mb-6 flex items-center gap-3">
+          <span class="accent-line"></span>
+          Data- & KI-Engineering
+        </div>
+
+        <h1 class="hero-title text-ink mb-8">
+          Verlässliche <span class="highlight">Data- und KI-</span>Plattformen auf Google Cloud
+        </h1>
+
+        <p class="text-muted text-lg max-w-xl mb-10 leading-relaxed">
+          Wir entwerfen und betreiben Datenpipelines, BI-Reports und KI-Lösungen, die mit Ihrem Unternehmen mitwachsen.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#contact" class="btn btn-glow btn-lg rounded-xl px-8 font-bold text-base">
+            Plattform-Review anfragen →
+          </a>
+
+          <a href="#services" class="btn btn-lg btn-ghost border border-line/10 rounded-xl px-8 text-base hover:border-accent/30">
+            Leistungen ansehen
+          </a>
+        </div>
+
+        <div class="mt-16 grid grid-cols-3 max-w-xl gap-0 border border-line/8 rounded-2xl overflow-hidden">
+          <div class="stat-card p-5 text-center">
+            <div class="text-2xl font-bold text-accent">50+</div>
+            <div class="mono text-xs text-subtle mt-1">Projekte</div>
+          </div>
+          <div class="stat-card p-5 text-center">
+            <div class="text-2xl font-bold text-accent">×10</div>
+            <div class="mono text-xs text-subtle mt-1">schnellere Pipelines</div>
+          </div>
+          <div class="p-5 text-center">
+            <div class="text-2xl font-bold text-accent">99.9%</div>
+            <div class="mono text-xs text-subtle mt-1">System-Verfügbarkeit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden xl:block shrink-0 opacity-50" aria-hidden="true">
+        <div class="mono text-xs text-subtle leading-7 border border-line/5 rounded-xl p-6 bg-line/2">
+          <span class="text-faint">with</span> <span class="text-purple-400">beam</span>.<span class="text-accent">Pipeline</span>() <span class="text-faint">as</span> <span class="text-accent">p</span>:<br/>
+          &nbsp;&nbsp;(<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-accent">p</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;| <span class="text-accent">"Read"</span> >> <span class="text-purple-400">ReadFromBigQuery</span>(<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query=<span class="text-yellow-400">"SELECT * FROM events"</span>,<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use_standard_sql=<span class="text-purple-400">True</span><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;)<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;| <span class="text-accent">"Transform"</span> >> <span class="text-purple-400">TransformFn</span>()<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;| <span class="text-accent">"WriteToML"</span> >> <span class="text-purple-400">WriteToVertex</span>()<br/>
+          &nbsp;&nbsp;)
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="border-y border-line/5 py-3 overflow-hidden" aria-hidden="true">
+      <div class="ticker-wrap">
+        <span class="ticker mono text-xs text-faint">BigQuery &nbsp;·&nbsp; Storage &nbsp;·&nbsp; ClickHouse &nbsp;·&nbsp; PostgreSQL &nbsp;·&nbsp; Apache Airflow &nbsp;·&nbsp; dbt &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; LiteLLM &nbsp;·&nbsp; Django &nbsp;·&nbsp; Hugging Face &nbsp;·&nbsp; Gemini API &nbsp;·&nbsp; OpenAI API &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Docker &nbsp;·&nbsp; GitHub Actions &nbsp;·&nbsp; GCP &nbsp;·&nbsp; Qlik Sense &nbsp;·&nbsp; BigQuery &nbsp;·&nbsp; Storage &nbsp;·&nbsp; ClickHouse &nbsp;·&nbsp; PostgreSQL &nbsp;·&nbsp; Apache Airflow &nbsp;·&nbsp; dbt &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; LiteLLM &nbsp;·&nbsp; Django &nbsp;·&nbsp; Hugging Face &nbsp;·&nbsp; Gemini API &nbsp;·&nbsp; OpenAI API &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Docker &nbsp;·&nbsp; GitHub Actions &nbsp;·&nbsp; GCP &nbsp;·&nbsp; Qlik Sense &nbsp;·&nbsp; </span>
+      </div>
+    </div>    <!-- SERVICES -->
+    <section id="services" class="px-6 lg:px-16 py-28">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-16">
+          <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+            <span class="accent-line"></span>
+            01 / Services
+          </div>
+
+          <h2 class="text-4xl font-bold text-ink mb-4">Was wir bauen</h2>
+
+          <p class="text-muted max-w-xl">
+            Engineering-Services über die gesamte Kette: von Rohdaten bis zu produktionsreifen KI-Produkten.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="service-card p-7 reveal" style="transition-delay: 0s;">
+            <div class="service-icon mb-5" style="background: rgba(27, 171, 83, 0.1); border-color: rgba(27, 171, 83, 0.2);">
+              <i data-lucide="database"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">Data Engineering</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Entwurf von ETL/ELT-Pipelines, Data-Lake- und Data-Warehouse-Architekturen. Zuverlässige Datenlieferung in jeder Größenordnung.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">Pipelines</span>
+              <span class="stack-badge">Architektur</span>
+              <span class="stack-badge">Automatisierung</span>
+              <span class="stack-badge">Datenqualität</span>
+            </div>
+          </div>
+          <div class="service-card p-7 reveal" style="transition-delay: 0.1s;">
+            <div class="service-icon mb-5" style="background: rgba(123, 97, 255, 0.1); border-color: rgba(123, 97, 255, 0.2);">
+              <i data-lucide="brain-circuit"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">GenAI</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Entwicklung und Betrieb von LLM-Anwendungen, RAG-Systemen und KI-Agenten in Produktionsumgebungen.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">LLM-Apps</span>
+              <span class="stack-badge">RAG</span>
+              <span class="stack-badge">KI-Agenten</span>
+              <span class="stack-badge">MCP-Server</span>
+            </div>
+          </div>
+          <div class="service-card p-7 reveal" style="transition-delay: 0.2s;">
+            <div class="service-icon mb-5" style="background: rgba(0, 200, 255, 0.1); border-color: rgba(0, 200, 255, 0.2);">
+              <i data-lucide="cloud-cog"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">Cloud-Datenplattform</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Aufbau moderner Cloud-Datenplattformen auf Google Cloud Platform, von Grund auf oder durch Migration bestehender Systeme.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">Cloud-Setup</span>
+              <span class="stack-badge">Migration</span>
+              <span class="stack-badge">Infrastruktur</span>
+              <span class="stack-badge">Optimierung</span>
+            </div>
+          </div>
+          <div class="service-card p-7 reveal" style="transition-delay: 0.05s;">
+            <div class="service-icon mb-5" style="background: rgba(255, 170, 0, 0.1); border-color: rgba(255, 170, 0, 0.2);">
+              <i data-lucide="chart-column-increasing"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">Analytics & BI Engineering</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Semantische Schicht, Datenmodellierung, Kennzahlen und Dashboards. Ihre Daten - verständlich für das ganze Team.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">Dashboards</span>
+              <span class="stack-badge">Kennzahlen</span>
+              <span class="stack-badge">Semantische Schicht</span>
+              <span class="stack-badge">Self-Service-BI</span>
+            </div>
+          </div>
+          <div class="service-card p-7 reveal" style="transition-delay: 0.15s;">
+            <div class="service-icon mb-5" style="background: rgba(27, 171, 83, 0.1); border-color: rgba(27, 171, 83, 0.2);">
+              <i data-lucide="compass"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">Beratung für Data-Teams</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Beratung, wie Data-Teams strukturiert, skaliert und auf die Geschäftsanforderungen ausgerichtet werden können. Rollen, Zusammenarbeit, Verantwortungsmodelle und Datenreife.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">Strategie</span>
+              <span class="stack-badge">Teamstruktur</span>
+              <span class="stack-badge">Verantwortungsmodelle</span>
+              <span class="stack-badge">Reifegrad-Analyse</span>
+            </div>
+          </div>
+          <div class="service-card p-7 reveal" style="transition-delay: 0.25s;">
+            <div class="service-icon mb-5" style="background: rgba(123, 97, 255, 0.1); border-color: rgba(123, 97, 255, 0.2);">
+              <i data-lucide="presentation"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-ink mb-3">Team-Schulungen</h3>
+
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              Praxisnahe Workshops und Wissenstransfer für Data-, Analytics- und KI-Teams. Mit Fokus auf modernes Data Engineering, Cloud-Plattformen, BI und KI-Workflows.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="stack-badge">Workshops</span>
+              <span class="stack-badge">Schulungen</span>
+              <span class="stack-badge">Wissenstransfer</span>
+              <span class="stack-badge">Praxis-Sessions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>    <!-- STACK -->
+    <section id="stack" class="px-6 lg:px-16 py-24 border-y border-line/5">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-12">
+          <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+            <span class="accent-line"></span>
+            02 / Tech-Stack
+          </div>
+
+          <h2 class="text-4xl font-bold text-ink mb-4">Unser Stack</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 reveal">
+          <div>
+            <div class="mono text-xs text-faint mb-3 uppercase tracking-widest">Storage</div>
+            <div class="flex flex-col gap-2">
+              <span class="stack-badge w-fit">BigQuery</span>
+              <span class="stack-badge w-fit">Storage</span>
+              <span class="stack-badge w-fit">ClickHouse</span>
+              <span class="stack-badge w-fit">PostgreSQL</span>
+            </div>
+          </div>
+          <div>
+            <div class="mono text-xs text-faint mb-3 uppercase tracking-widest">Orchestrierung</div>
+            <div class="flex flex-col gap-2">
+              <span class="stack-badge w-fit">Apache Airflow</span>
+              <span class="stack-badge w-fit">dbt</span>
+            </div>
+          </div>
+          <div>
+            <div class="mono text-xs text-faint mb-3 uppercase tracking-widest">Gen AI</div>
+            <div class="flex flex-col gap-2">
+              <span class="stack-badge w-fit">LangChain</span>
+              <span class="stack-badge w-fit">LiteLLM</span>
+              <span class="stack-badge w-fit">Django</span>
+              <span class="stack-badge w-fit">Hugging Face</span>
+              <span class="stack-badge w-fit">Gemini API</span>
+              <span class="stack-badge w-fit">OpenAI API</span>
+            </div>
+          </div>
+          <div>
+            <div class="mono text-xs text-faint mb-3 uppercase tracking-widest">Infrastruktur</div>
+            <div class="flex flex-col gap-2">
+              <span class="stack-badge w-fit">Terraform</span>
+              <span class="stack-badge w-fit">Docker</span>
+              <span class="stack-badge w-fit">GitHub Actions</span>
+              <span class="stack-badge w-fit">Google Cloud Platform</span>
+            </div>
+          </div>
+          <div>
+            <div class="mono text-xs text-faint mb-3 uppercase tracking-widest">BI</div>
+            <div class="flex flex-col gap-2">
+              <span class="stack-badge w-fit">Qlik Sense</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>    <!-- PROCESS -->
+    <section id="process" class="px-6 lg:px-16 py-28">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-16">
+          <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+            <span class="accent-line"></span>
+            03 / Vorgehen
+          </div>
+
+          <h2 class="text-4xl font-bold text-ink mb-4">Wie wir arbeiten</h2>
+
+          <p class="text-muted max-w-xl">
+            Klar umrissene Projekte mit konkretem technischem Ergebnis: Befunde, Empfehlungen, Release-Prozess, Checklisten und Umsetzungsbegleitung.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="reveal" style="transition-delay: 0.0s;">
+            <div class="step-num">01</div>
+            <h3 class="text-ink font-bold text-lg mt-2 mb-3">Review</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Architektur, Pipelines, Cloud-Ressourcen, Deployment-Prozess und aktuelle Schwachstellen im Team.
+            </p>
+          </div>
+          <div class="reveal" style="transition-delay: 0.1s;">
+            <div class="step-num">02</div>
+            <h3 class="text-ink font-bold text-lg mt-2 mb-3">Diagnose</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Identifikation von Zuverlässigkeitslücken, Release-Risiken, Performance-Engpässen und vermeidbaren Cloud-Kosten.
+            </p>
+          </div>
+          <div class="reveal" style="transition-delay: 0.2s;">
+            <div class="step-num">03</div>
+            <h3 class="text-ink font-bold text-lg mt-2 mb-3">Roadmap</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Priorisierte Maßnahmen, Ziel-Deployment-Flow, Plattform-Empfehlungen und schnelle Erfolge.
+            </p>
+          </div>
+          <div class="reveal" style="transition-delay: 0.3s;">
+            <div class="step-num">04</div>
+            <h3 class="text-ink font-bold text-lg mt-2 mb-3">Support</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Asynchrone Beratung, technische Reviews, Umsetzungsbegleitung und Dokumentationsunterstützung.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>    <!-- LATEST POSTS -->
+    <section id="blog" class="px-6 lg:px-16 py-28 border-t border-line/5">
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+              <span class="accent-line"></span>
+              04 / Blog
+            </div>
+
+            <h2 class="text-4xl font-bold text-ink mb-4">Neu im Blog</h2>
+
+            <p class="text-muted max-w-xl">
+              Praxisnotizen zu Datenplattformen, GenAI und der Arbeit von Data-Teams.
+            </p>
+          </div>
+
+          <a href="https://datacloudhero.com/de/blog/" class="mono text-sm text-accent hover:underline whitespace-nowrap">Alle Artikel →</a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<article class="service-card post-card reveal flex flex-col" style="transition-delay: 0.0s;">
+  <img src="https://datacloudhero.com/de/blog/gtm-engineer-role/gtm-engineer-stack.png" alt="" loading="lazy" class="post-thumb border-b border-line/5" />
+  <div class="p-7 flex flex-col flex-1">
+    <div class="mono text-xs text-subtle mb-3">
+      <time datetime="2026-09-15T10:00:00+02:00">15.09.2026</time>
+ · Engineering    </div>
+
+    <h3 class="text-lg font-bold text-ink mb-3 leading-snug">
+      <a href="https://datacloudhero.com/de/blog/gtm-engineer-role/" class="post-title-link post-card-link">GTM Engineer: was das ist und wie es sich von einem Data oder Analytics Engineer unterscheidet</a>
+    </h3>
+
+    <p class="text-muted text-sm leading-relaxed mb-5">
+      Der Begriff wurde 2023 von Clay geprägt — wir gehen anhand der Primärquellen durch, was ein GTM Engineer tatsächlich tut und wie sich die Rolle von RevOps, Data Engineering und...
+    </p>
+
+    <span class="post-card-read mono text-sm text-accent mt-auto" aria-hidden="true">Lesen →</span>
+  </div>
+</article><article class="service-card post-card reveal flex flex-col" style="transition-delay: 0.1s;">
+  <img src="https://datacloudhero.com/de/blog/agent-memory-framework/agent-memory-diagram.png" alt="" loading="lazy" class="post-thumb border-b border-line/5" />
+  <div class="p-7 flex flex-col flex-1">
+    <div class="mono text-xs text-subtle mb-3">
+      <time datetime="2026-09-14T10:00:00+02:00">14.09.2026</time>
+ · AI Agents    </div>
+
+    <h3 class="text-lg font-bold text-ink mb-3 leading-snug">
+      <a href="https://datacloudhero.com/de/blog/agent-memory-framework/" class="post-title-link post-card-link">KI-Agenten-Gedächtnis: ein praktikables Framework statt eines Begriffs-Zoos</a>
+    </h3>
+
+    <p class="text-muted text-sm leading-relaxed mb-5">
+      Drei unabhängige Achsen — was gespeichert wird, wie es abgerufen wird und wem es gehört — statt einer weiteren Liste mit vier bis sieben „Gedächtnistypen".
+    </p>
+
+    <span class="post-card-read mono text-sm text-accent mt-auto" aria-hidden="true">Lesen →</span>
+  </div>
+</article>        </div>
+      </div>
+    </section>
+    <!-- CTA: the button opens the site-wide contact modal
+         (partials/contact_modal.html) via the open-contact event. -->
+    <section id="contact" class="px-6 lg:px-16 py-24">
+      <div class="max-w-5xl mx-auto">
+        <div class="cta-section p-12 lg:p-16 text-center reveal">
+          <div class="mono text-accent text-sm mb-5">Bereit loszulegen?</div>
+
+          <h2 class="text-4xl lg:text-5xl font-bold text-ink mb-6">
+            Lassen Sie uns<br/>etwas Gutes aufbauen
+          </h2>
+
+          <p class="text-muted max-w-lg mx-auto mb-10 leading-relaxed">
+            Beschreiben Sie Ihre Herausforderung: Pipelines, CI/CD, Zuverlässigkeit, Architektur oder Cloud-Kosten. Sie bekommen ein klares technisches Gespräch, kein Verkaufsgespräch.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <button type="button" @click="$dispatch('open-contact')" class="btn btn-glow btn-lg rounded-xl px-10 font-bold">
+              Schreiben Sie uns ✉
+            </button>
+          </div>
+
+          <div class="mono text-xs text-faint">
+            <a href="mailto:info@datacloudhero.com">info@datacloudhero.com</a>
+            · Ausgewählte Beratungsprojekte · Remote, europaweit
+          </div>
+        </div>
+      </div>
+    </section>    <!-- FAQ: native <details>/<summary>, so questions and answers are in
+         the HTML (crawlers, no-JS) and match the FAQPage JSON-LD in <head>. -->
+    <section id="faq" class="px-6 lg:px-16 py-24 border-t border-line/5">
+      <div class="max-w-3xl mx-auto">
+        <div class="reveal mb-12">
+          <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+            <span class="accent-line"></span>
+            05 / FAQ
+          </div>
+
+          <h2 class="text-4xl font-bold text-ink mb-4">Häufig gestellte Fragen</h2>
+        </div>
+
+        <div class="flex flex-col gap-3 reveal">
+          <details class="faq-item border border-line/8 rounded-xl overflow-hidden transition-colors">
+            <summary class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-line/2 transition-colors">
+              <h3 class="font-semibold text-ink text-sm">Übernehmen Sie Vollzeit-Projekte?</h3>
+              <span class="faq-icon text-accent ml-4 flex-shrink-0 transition-transform duration-300" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-5 text-muted text-sm leading-relaxed">Ich konzentriere mich auf ausgewählte, klar umrissene Beratungs- und Engineering-Projekte mit klaren Meilensteinen und technischem Ergebnis.</p>
+          </details>
+          <details class="faq-item border border-line/8 rounded-xl overflow-hidden transition-colors">
+            <summary class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-line/2 transition-colors">
+              <h3 class="font-semibold text-ink text-sm">Arbeiten Sie mit Azure, Google Cloud oder AWS?</h3>
+              <span class="faq-icon text-accent ml-4 flex-shrink-0 transition-transform duration-300" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-5 text-muted text-sm leading-relaxed">Der Schwerpunkt liegt auf Google-Cloud-Datenplattformen: Pipelines, Warehouse- und Lake-Architektur, CI/CD, Zuverlässigkeit und Kosten.</p>
+          </details>
+          <details class="faq-item border border-line/8 rounded-xl overflow-hidden transition-colors">
+            <summary class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-line/2 transition-colors">
+              <h3 class="font-semibold text-ink text-sm">Was umfasst ein Plattform-Review?</h3>
+              <span class="faq-icon text-accent ml-4 flex-shrink-0 transition-transform duration-300" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-5 text-muted text-sm leading-relaxed">Architektur-Review, Bewertung von Pipeline- und Release-Prozess, Lücken im Monitoring, Kosten- und Performance-Risiken sowie eine praxisnahe Verbesserungs-Roadmap.</p>
+          </details>
+          <details class="faq-item border border-line/8 rounded-xl overflow-hidden transition-colors">
+            <summary class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-line/2 transition-colors">
+              <h3 class="font-semibold text-ink text-sm">Können Sie helfen, ohne unseren Stack zu ersetzen?</h3>
+              <span class="faq-icon text-accent ml-4 flex-shrink-0 transition-transform duration-300" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-5 text-muted text-sm leading-relaxed">Ja. Ziel ist meist, bestehende Systeme zu stabilisieren und zu verbessern, statt alles von Grund auf neu zu bauen.</p>
+          </details>
+          <details class="faq-item border border-line/8 rounded-xl overflow-hidden transition-colors">
+            <summary class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-line/2 transition-colors">
+              <h3 class="font-semibold text-ink text-sm">Arbeiten Sie remote?</h3>
+              <span class="faq-icon text-accent ml-4 flex-shrink-0 transition-transform duration-300" aria-hidden="true">＋</span>
+            </summary>
+            <p class="px-6 pb-5 text-muted text-sm leading-relaxed">Ja. Remote-first, europaweit, mit asynchroner Kommunikation und geplanten Review-Calls.</p>
+          </details>
+        </div>
+      </div>
+    </section>  </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line/5 px-6 lg:px-16 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-7 w-auto" loading="lazy" />
+        </div>
+
+        <div class="mono text-xs text-faint text-center">
+          <div>© 2025 datacloudhero.com.</div>
+          <div>Data- & KI-Engineering.</div>
+          <div class="whitespace-nowrap mt-1">🇫🇷 Made in France</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#services" class="mono text-xs text-subtle hover:text-accent transition-colors">Services</a>
+          <a href="#stack" class="mono text-xs text-subtle hover:text-accent transition-colors">Stack</a>
+          <a href="#contact"  class="mono text-xs text-subtle hover:text-accent transition-colors">Kontakt</a>
+          <a href="https://datacloudhero.com/de/blog/" class="mono text-xs text-subtle hover:text-accent transition-colors">Blog</a>
+          <a href="https://datacloudhero.com/de/blog/cookie-policy/" class="mono text-xs text-subtle hover:text-accent transition-colors">Cookie-Richtlinie</a>
+
+          <button
+            type="button"
+            data-cc="show-preferencesModal"
+            class="mono text-xs text-subtle hover:text-accent transition-colors bg-transparent border-0 p-0 cursor-pointer"
+          >
+            Cookie-Einstellungen
+          </button>
+        </div>
+      </div>
+    </footer><div x-data="contactForm(&#34;Nachricht gesendet. Vielen Dank!&#34;, &#34;Etwas ist schiefgelaufen. Bitte schreiben Sie uns direkt per E-Mail.&#34;)" @open-contact.window="openContactForm()">
+    <!-- CONTACT MODAL -->
+    <div
+      x-show="showContactForm"
+      x-cloak
+      @keydown.escape.window="showContactForm = false"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+    >
+      <div
+        @click.away="showContactForm = false"
+        class="w-full max-w-2xl rounded-[32px] border border-line/10 bg-panel/95 p-6 shadow-2xl backdrop-blur-xl"
+      >
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <div class="mono text-accent text-sm mb-2">Kontakt</div>
+            <div class="text-3xl font-bold text-ink">Schreiben Sie uns</div>
+          </div>
+
+          <button type="button" @click="showContactForm = false" class="text-muted hover:text-ink text-2xl leading-none" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <template x-if="!submitted">
+        <form @submit.prevent="submitContact($event)" class="space-y-5">
+          <!-- Honeypot: hidden from real users, bots that auto-fill every input tend to fill it -->
+          <input
+            type="text"
+            name="company"
+            x-model="formData.company"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          />
+
+          <div class="grid gap-4">
+            <label class="block text-sm font-semibold text-copy">
+              Name
+              <input
+                name="name"
+                x-model="formData.name"
+                type="text"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              E-Mail
+              <input
+                name="email"
+                x-model="formData.email"
+                type="email"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Nachricht
+              <textarea
+                name="message"
+                x-model="formData.message"
+                required
+                rows="6"
+                class="mt-2 w-full rounded-3xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEM7muzBPUFiEYFd" :data-theme="document.documentElement.classList.contains('dark') ? 'dark' : 'light'" data-language="de"></div>
+
+          <div class="flex flex-col gap-3">
+            <button type="submit" :disabled="submitting" class="btn btn-glow btn-lg rounded-2xl px-6 font-bold disabled:opacity-60">
+              <span x-show="!submitting">Senden</span>
+              <span x-show="submitting">Wird gesendet…</span>
+            </button>
+
+            <div class="text-sm">
+              <p x-text="error" class="text-rose-400"></p>
+            </div>
+          </div>
+        </form>
+        </template>
+
+        <!-- Success is its own view, not a message left under the now-empty
+             form - x-if (not x-show) fully unmounts the form so its cleared
+             fields/honeypot/Turnstile widget aren't just hidden underneath.
+             openContactForm() (theme/js/contact-form.js) resets `submitted`
+             on the next open, and the modal auto-closes a couple seconds
+             after this view appears. -->
+        <template x-if="submitted">
+        <div class="text-center py-10">
+          <div class="mx-auto mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-accent">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p class="text-lg text-ink" x-text="status"></p>
+        </div>
+        </template>
+      </div>
+    </div>
+</div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <script type="module" src="https://datacloudhero.com/theme/js/cookieconsent-config.js"></script>
+</body>
+</html>

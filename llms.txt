@@ -1,0 +1,31 @@
+# datacloudhero.com
+
+> Practical guides and tutorials on data & AI engineering.
+
+## Site
+
+- [Homepage (EN)](https://datacloudhero.com/index.md): Services, tech stack, process and contact.
+- [Homepage (FR)](https://datacloudhero.com/fr/index.md): Services, tech stack, process and contact.
+- [Homepage (DE)](https://datacloudhero.com/de/index.md): Services, tech stack, process and contact.
+- [Homepage (ES)](https://datacloudhero.com/es/index.md): Services, tech stack, process and contact.
+
+## Blog
+
+- [GTM Engineer: what it is and how it differs from a data or analytics engineer](https://datacloudhero.com/blog/gtm-engineer-role.md): The term was coined by Clay in 2023 — we go through the primary sources to see what a GTM engineer actually does and how the role differs from RevOps, data engineering, and analytics engineering.
+- [AI Agent Memory: A Working Framework, Not a Terminology Zoo](https://datacloudhero.com/blog/agent-memory-framework.md): Three independent axes — what's stored, how it's retrieved, and who owns it — instead of yet another list of four to seven "memory types."
+
+## Blog (FR)
+
+- [GTM Engineer : qui est-ce, et en quoi ce rôle diffère d'un data ou analytics engineer](https://datacloudhero.com/fr/blog/gtm-engineer-role.md): Le terme a été inventé par Clay en 2023 — on reprend les sources primaires pour voir ce que fait vraiment un GTM engineer et en quoi ce rôle diffère du RevOps, du data engineering et de l'analytics engineering.
+- [Mémoire des agents IA : un cadre de travail plutôt qu'un zoo de termes](https://datacloudhero.com/fr/blog/agent-memory-framework.md): Trois axes indépendants — ce qui est stocké, comment on le récupère, et qui en est propriétaire — plutôt qu'une énième liste de quatre à sept « types de mémoire ».
+
+## Blog (DE)
+
+- [GTM Engineer: was das ist und wie es sich von einem Data oder Analytics Engineer unterscheidet](https://datacloudhero.com/de/blog/gtm-engineer-role.md): Der Begriff wurde 2023 von Clay geprägt — wir gehen anhand der Primärquellen durch, was ein GTM Engineer tatsächlich tut und wie sich die Rolle von RevOps, Data Engineering und Analytics Engineering unterscheidet.
+- [KI-Agenten-Gedächtnis: ein praktikables Framework statt eines Begriffs-Zoos](https://datacloudhero.com/de/blog/agent-memory-framework.md): Drei unabhängige Achsen — was gespeichert wird, wie es abgerufen wird und wem es gehört — statt einer weiteren Liste mit vier bis sieben „Gedächtnistypen".
+
+## Blog (ES)
+
+- [GTM Engineer: qué es y en qué se diferencia de un data o analytics engineer](https://datacloudhero.com/es/blog/gtm-engineer-role.md): El término lo acuñó Clay en 2023 — repasamos las fuentes primarias para ver qué hace realmente un GTM engineer y en qué se diferencia de RevOps, del data engineering y del analytics engineering.
+- [Memoria de los agentes de IA: un marco de trabajo en vez de un zoológico de términos](https://datacloudhero.com/es/blog/agent-memory-framework.md): Tres ejes independientes — qué se almacena, cómo se recupera y quién es su propietario — en lugar de otra lista más de cuatro a siete "tipos de memoria".
+

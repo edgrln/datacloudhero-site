@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es" class="dark" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      var html = document.documentElement;
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+    })();
+    function toggleTheme() {
+      var html = document.documentElement;
+      var theme = html.classList.contains('dark') ? 'light' : 'dark';
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+  </script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Google Consent Mode v2 defaults: deny analytics/ads storage until
+      // the visitor accepts via the cookie banner (see
+      // theme/js/cookieconsent-config.js, which calls gtag('consent',
+      // 'update', ...) from CookieConsent's onFirstConsent/onChange).
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+      });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MKSVW4QD');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Política de cookies · datacloudhero.com</title>
+
+  <link rel="canonical" href="https://datacloudhero.com/es/blog/cookie-policy/">
+  <meta property="og:url" content="https://datacloudhero.com/es/blog/cookie-policy/">
+  <link rel="alternate" hreflang="es" href="https://datacloudhero.com/es/blog/cookie-policy/">
+  <link rel="alternate" hreflang="de" href="https://datacloudhero.com/de/blog/cookie-policy/">
+  <link rel="alternate" hreflang="fr" href="https://datacloudhero.com/fr/blog/cookie-policy/">
+  <link rel="alternate" hreflang="en" href="https://datacloudhero.com/blog/cookie-policy/">
+<link rel="alternate" hreflang="x-default" href="https://datacloudhero.com/blog/cookie-policy/">  <meta name="description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta property="og:site_name" content="datacloudhero.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Política de cookies">
+  <meta property="og:description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta property="og:image" content="https://datacloudhero.com/theme/img/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Política de cookies">
+  <meta name="twitter:description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta name="twitter:image" content="https://datacloudhero.com/theme/img/social-card.png">
+
+  <link rel="icon" href="https://datacloudhero.com/theme/img/favicon.ico" type="image/x-icon" />
+  <link href="https://datacloudhero.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="datacloudhero.com Full Atom Feed">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/site.css?v=3d90076755">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/pygments.css?v=01d990f349">
+  <script>
+      function siteSearch() {
+          return {
+              query: '',
+              open: false,
+              results: [],
+              index: [],
+              selected: 0,
+              showAll: false,
+              init() {
+                  fetch('https://datacloudhero.com/blog/search-index.json')
+                      .then((r) => r.json())
+                      .then((data) => { this.index = data; })
+                      .catch(() => { this.index = []; });
+              },
+              search() {
+                  const q = this.query.trim().toLowerCase();
+                  this.open = q.length > 0;
+                  this.selected = 0;
+                  this.showAll = false;
+                  if (!q) { this.results = []; return; }
+                  this.results = this.index.filter((item) =>
+                      item.title.toLowerCase().includes(q) || (item.content || item.summary).toLowerCase().includes(q)
+                  );
+              },
+              get visibleResults() {
+                  return this.showAll ? this.results : this.results.slice(0, 6);
+              },
+              clear() {
+                  this.query = '';
+                  this.results = [];
+                  this.open = false;
+              },
+              matchType(item) {
+                  const q = this.query.trim().toLowerCase();
+                  return item.title.toLowerCase().includes(q) ? 'title' : 'content';
+              },
+              escapeHtml(str) {
+                  return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+              },
+              highlight(text) {
+                  const q = this.query.trim();
+                  const escaped = this.escapeHtml(text);
+                  if (!q) return escaped;
+                  const escapedQ = this.escapeHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  return escaped.replace(new RegExp('(' + escapedQ + ')', 'ig'), '<strong>$1</strong>');
+              },
+              move(delta) {
+                  if (!this.visibleResults.length) return;
+                  const max = this.visibleResults.length - 1;
+                  this.selected = Math.min(max, Math.max(0, this.selected + delta));
+              },
+              go() {
+                  const item = this.visibleResults[this.selected];
+                  if (item) window.location.href = item.url;
+              },
+          };
+      }
+
+      function infiniteScroll(nextUrl) {
+          return {
+              nextUrl: nextUrl || null,
+              loading: false,
+              init() {
+                  if (!this.nextUrl) return;
+                  const observer = new IntersectionObserver((entries) => {
+                      if (entries[0].isIntersecting) this.loadMore();
+                  });
+                  observer.observe(this.$refs.sentinel);
+              },
+              async loadMore() {
+                  if (this.loading || !this.nextUrl) return;
+                  this.loading = true;
+                  try {
+                      const res = await fetch(this.nextUrl);
+                      const html = await res.text();
+                      const doc = new DOMParser().parseFromString(html, 'text/html');
+                      const newPosts = doc.querySelectorAll('#post-list > article');
+                      const list = this.$refs.postList;
+                      newPosts.forEach((post) => list.appendChild(post));
+                      const pagination = doc.getElementById('pagination-data');
+                      this.nextUrl = pagination ? (pagination.dataset.nextUrl || null) : null;
+                  } catch (e) {
+                      this.nextUrl = null;
+                  } finally {
+                      this.loading = false;
+                  }
+              },
+          };
+      }
+  </script>
+  <script defer src="https://datacloudhero.com/theme/js/contact-form.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body
+  class="grid-bg"
+  x-data="{
+    menuOpen: false,
+  }"
+  x-init="
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  "
+>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSVW4QD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div class="navbar-custom py-4">
+    <div class="navbar-inner flex items-center justify-between">
+      <a href="https://datacloudhero.com/es/" class="text-xl font-bold tracking-tight flex items-center gap-2">
+        <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-8 w-auto" />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="https://datacloudhero.com/es/#services" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+        <a href="https://datacloudhero.com/es/#stack" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+        <a href="https://datacloudhero.com/es/#process" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+        <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+        <div class="relative" x-data="{ langMenuOpen: false }" @click.outside="langMenuOpen = false">
+          <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+            ES
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div x-show="langMenuOpen" x-cloak x-transition class="absolute right-0 mt-2 w-36 rounded-xl border border-line/10 bg-panel/95 backdrop-blur-xl shadow-2xl py-2 z-50">
+            <a href="https://datacloudhero.com/blog/cookie-policy/" hreflang="en" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">English</a>
+            <a href="https://datacloudhero.com/fr/blog/cookie-policy/" hreflang="fr" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Français</a>
+            <a href="https://datacloudhero.com/de/blog/cookie-policy/" hreflang="de" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Deutsch</a>
+            <a href="https://datacloudhero.com/es/blog/cookie-policy/" hreflang="es" class="block px-4 py-2 text-sm mono text-accent font-semibold">Español</a>
+          </div>
+        </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>        <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold mono">
+          Contáctanos
+        </a>
+      </nav>
+
+      <button
+        class="md:hidden text-muted hover:text-accent transition-colors"
+        type="button"
+        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen"
+        aria-label="Abrir menú"
+      >
+        <svg x-show="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+
+        <svg x-show="menuOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      x-show="menuOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="navbar-inner md:hidden mt-4 flex flex-col gap-4 border-t border-line/5 pt-4 pb-2"
+      x-cloak
+    >
+      <a href="https://datacloudhero.com/es/#services" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Servicios</a>
+      <a href="https://datacloudhero.com/es/#stack" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Stack tecnológico</a>
+      <a href="https://datacloudhero.com/es/#process" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Proceso</a>
+      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contacto</a>
+      <a href="https://datacloudhero.com/es/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+      <div x-data="{ langMenuOpen: false }">
+        <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+          ES
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div x-show="langMenuOpen" x-cloak x-transition class="flex flex-col gap-3 mt-3 pl-4 border-l border-line/10">
+          <a href="https://datacloudhero.com/blog/cookie-policy/" hreflang="en" class="mono text-sm text-muted hover:text-accent transition-colors">English</a>
+          <a href="https://datacloudhero.com/fr/blog/cookie-policy/" hreflang="fr" class="mono text-sm text-muted hover:text-accent transition-colors">Français</a>
+          <a href="https://datacloudhero.com/de/blog/cookie-policy/" hreflang="de" class="mono text-sm text-muted hover:text-accent transition-colors">Deutsch</a>
+          <a href="https://datacloudhero.com/es/blog/cookie-policy/" hreflang="es" class="mono text-sm text-accent font-semibold">Español</a>
+        </div>
+      </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema claro/oscuro">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>      <a href="https://datacloudhero.com/es/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white w-fit font-semibold mono">
+        Contáctanos
+      </a>
+    </div>
+  </div>
+  <main class="site-main">
+    <div class="site-container">
+<div class="content-wrap mx-auto">
+  <div class="mono text-accent text-sm mb-5 flex items-center gap-3">
+    <span class="accent-line"></span>
+    datacloudhero.com
+  </div>
+  <h1 class="text-4xl md:text-5xl font-extrabold text-ink tracking-tight mb-10">Política de cookies</h1>
+  <div class="content-body prose prose-lg max-w-none">
+    <p>Esta página explica qué cookies utiliza datacloudhero.com, por qué, y cómo puedes cambiar tu elección en cualquier momento.</p>
+<h2>Qué son las cookies</h2>
+<p>Las cookies son pequeños archivos de texto que un sitio web guarda en tu navegador. Algunas son necesarias para que el sitio funcione; otras nos ayudan a entender cómo se usa el sitio.</p>
+<h2>Cookies que utilizamos</h2>
+<h3>Estrictamente necesarias</h3>
+<table>
+<thead>
+<tr>
+<th>Cookie</th>
+<th>Finalidad</th>
+<th>Caducidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cc_cookie</code></td>
+<td>Guarda tus preferencias de cookies (qué categorías aceptaste o rechazaste), establecida por el banner de consentimiento.</td>
+<td>182 días</td>
+</tr>
+</tbody>
+</table>
+<p>Esta no se puede desactivar — sin ella, el sitio no puede recordar tu elección y volvería a preguntarte en cada visita.</p>
+<h3>Analíticas (solo si aceptas)</h3>
+<table>
+<thead>
+<tr>
+<th>Cookie</th>
+<th>Finalidad</th>
+<th>Caducidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_ga</code>, <code>_ga_*</code></td>
+<td>Google Analytics (GA4, propiedad <code>G-23MF8B8LYG</code>), cargado a través de Google Tag Manager. Se usa de forma agregada para entender el tráfico y el uso del sitio - páginas vistas, tiempo en el sitio, fuente de referencia.</td>
+<td>Hasta 2 años</td>
+</tr>
+</tbody>
+</table>
+<p>Estas solo se establecen después de que aceptas la categoría "Analíticas" en el banner de cookies, o más adelante mediante el enlace <strong>Gestionar preferencias</strong> en el pie de página. Si rechazas, no se establece ninguna cookie analítica en tu dispositivo.</p>
+<h3>Google Consent Mode</h3>
+<p>Aunque rechaces las cookies analíticas, las etiquetas de Google igualmente envían una señal mínima sin cookies (no se escribe ninguna cookie, no se asocia ningún identificador personal) que Google usa únicamente para informes agregados y modelados estadísticamente - no para rastrearte individualmente. Se trata de una salvaguarda de privacidad integrada en el propio marco de consentimiento de Google (<a href="https://support.google.com/analytics/answer/9976101">documentación de Google</a>), que no podemos restringir más por nuestra parte.</p>
+<h3>Otras cookies técnicas</h3>
+<p>Este sitio se sirve a través de Cloudflare (por rendimiento y seguridad) y usa Cloudflare Turnstile en el formulario de contacto para bloquear envíos de spam. Ambos pueden establecer sus propias cookies estrictamente necesarias como parte de esa infraestructura, independientemente de las opciones anteriores.</p>
+<h2>Gestionar tu elección</h2>
+<p>Usa el enlace <strong>Gestionar preferencias</strong> en el pie de página de cualquier página para volver a abrir el panel de preferencias y cambiar tu elección en cualquier momento. También puedes bloquear o eliminar cookies directamente desde la configuración de tu navegador, aunque hacerlo puede afectar el funcionamiento de algunas partes del sitio.</p>
+<h2>Contacto</h2>
+<p>Preguntas sobre esta política: <a href="mailto:info@datacloudhero.com">info@datacloudhero.com</a>.</p>
+  </div>
+<aside class="not-prose cta-section p-8 md:p-12 text-center my-16">
+  <div class="mono text-accent text-sm mb-4">¿Listo para empezar?</div>
+  <div class="text-3xl md:text-4xl font-bold text-ink mb-5 leading-tight">
+    Construyamos algo grande
+  </div>
+  <p class="text-muted max-w-lg mx-auto mb-8 leading-relaxed">
+    Cuéntanos tu desafío de plataforma de datos: pipelines, CI/CD, fiabilidad, arquitectura o costes cloud. Tendrás una conversación técnica clara, sin discurso de ventas.
+  </p>
+  <button type="button" @click="$dispatch('open-contact')" class="btn btn-glow btn-lg rounded-xl px-10 font-bold">
+    Escríbenos ✉
+  </button>
+  <div class="mono text-xs text-faint mt-8">
+    <a href="mailto:info@datacloudhero.com" class="hover:text-accent">info@datacloudhero.com</a>
+    · Colaboraciones de asesoría seleccionadas · En remoto, en toda Europa
+  </div>
+</aside></div>
+    </div>
+  </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line/5 px-6 lg:px-16 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-7 w-auto" loading="lazy" />
+        </div>
+
+        <div class="mono text-xs text-faint text-center">
+          <div>© 2025 datacloudhero.com.</div>
+          <div>Ingeniería de Datos e IA.</div>
+          <div class="whitespace-nowrap mt-1">🇫🇷 Made in France</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="https://datacloudhero.com/es/#services" class="mono text-xs text-subtle hover:text-accent transition-colors">Servicios</a>
+          <a href="https://datacloudhero.com/es/#stack" class="mono text-xs text-subtle hover:text-accent transition-colors">Stack</a>
+          <a href="https://datacloudhero.com/es/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-xs text-subtle hover:text-accent transition-colors">Contacto</a>
+          <a href="https://datacloudhero.com/es/blog/" class="mono text-xs text-subtle hover:text-accent transition-colors">Blog</a>
+          <a href="https://datacloudhero.com/es/blog/cookie-policy/" class="mono text-xs text-subtle hover:text-accent transition-colors">Política de cookies</a>
+
+          <button
+            type="button"
+            data-cc="show-preferencesModal"
+            class="mono text-xs text-subtle hover:text-accent transition-colors bg-transparent border-0 p-0 cursor-pointer"
+          >
+            Preferencias de cookies
+          </button>
+        </div>
+      </div>
+    </footer><div x-data="contactForm(&#34;\u00a1Mensaje enviado! Gracias.&#34;, &#34;Algo sali\u00f3 mal. Escr\u00edbenos directamente por correo, por favor.&#34;)" @open-contact.window="openContactForm()">
+    <!-- CONTACT MODAL -->
+    <div
+      x-show="showContactForm"
+      x-cloak
+      @keydown.escape.window="showContactForm = false"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+    >
+      <div
+        @click.away="showContactForm = false"
+        class="w-full max-w-2xl rounded-[32px] border border-line/10 bg-panel/95 p-6 shadow-2xl backdrop-blur-xl"
+      >
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <div class="mono text-accent text-sm mb-2">Contacto</div>
+            <div class="text-3xl font-bold text-ink">Escríbenos</div>
+          </div>
+
+          <button type="button" @click="showContactForm = false" class="text-muted hover:text-ink text-2xl leading-none" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <template x-if="!submitted">
+        <form @submit.prevent="submitContact($event)" class="space-y-5">
+          <!-- Honeypot: hidden from real users, bots that auto-fill every input tend to fill it -->
+          <input
+            type="text"
+            name="company"
+            x-model="formData.company"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          />
+
+          <div class="grid gap-4">
+            <label class="block text-sm font-semibold text-copy">
+              Nombre
+              <input
+                name="name"
+                x-model="formData.name"
+                type="text"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Email
+              <input
+                name="email"
+                x-model="formData.email"
+                type="email"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Mensaje
+              <textarea
+                name="message"
+                x-model="formData.message"
+                required
+                rows="6"
+                class="mt-2 w-full rounded-3xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEM7muzBPUFiEYFd" :data-theme="document.documentElement.classList.contains('dark') ? 'dark' : 'light'" data-language="es"></div>
+
+          <div class="flex flex-col gap-3">
+            <button type="submit" :disabled="submitting" class="btn btn-glow btn-lg rounded-2xl px-6 font-bold disabled:opacity-60">
+              <span x-show="!submitting">Enviar</span>
+              <span x-show="submitting">Enviando…</span>
+            </button>
+
+            <div class="text-sm">
+              <p x-text="error" class="text-rose-400"></p>
+            </div>
+          </div>
+        </form>
+        </template>
+
+        <!-- Success is its own view, not a message left under the now-empty
+             form - x-if (not x-show) fully unmounts the form so its cleared
+             fields/honeypot/Turnstile widget aren't just hidden underneath.
+             openContactForm() (theme/js/contact-form.js) resets `submitted`
+             on the next open, and the modal auto-closes a couple seconds
+             after this view appears. -->
+        <template x-if="submitted">
+        <div class="text-center py-10">
+          <div class="mx-auto mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-accent">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p class="text-lg text-ink" x-text="status"></p>
+        </div>
+        </template>
+      </div>
+    </div>
+</div>
+  <script>
+    // "Copy page as Markdown" buttons (see partials/ai_actions.html).
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-markdown');
+        if (!btn) return;
+
+        var label = btn.closest('.ai-actions').querySelector('.js-ai-actions-label');
+        var resetLabel = label ? label.textContent : null;
+
+        fetch(btn.dataset.mdUrl)
+            .then(function (r) {
+                if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+                return r.text();
+            })
+            .then(function (text) { return navigator.clipboard.writeText(text); })
+            .then(function () {
+                if (label) label.textContent = "\u00a1Copiado!";
+            })
+            .catch(function (err) {
+                console.error('Copy as Markdown failed', err);
+                if (label) label.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                if (label) setTimeout(function () { label.textContent = resetLabel; }, 1800);
+            });
+    });
+
+    // Copy button on fenced code blocks (```python ... ``` etc.).
+    // Pelican's codehilite/Pygments output (see theme/css/pygments.css)
+    // is static <div class="highlight"><pre><code>...</code></pre></div>
+    // markup with no button of its own, so inject one into each block
+    // found inside article/page content.
+    document.querySelectorAll('.article-body .highlight, .content-wrap .highlight').forEach(function (block) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-btn js-copy-code';
+        btn.textContent = "Copiar";
+        block.appendChild(btn);
+    });
+
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-code');
+        if (!btn) return;
+
+        var resetLabel = "Copiar";
+        var code = btn.closest('.highlight').querySelector('code');
+
+        navigator.clipboard.writeText(code ? code.innerText : '')
+            .then(function () {
+                btn.textContent = "\u00a1Copiado!";
+                btn.classList.add('is-copied');
+            })
+            .catch(function (err) {
+                console.error('Copy code failed', err);
+                btn.textContent = "Error al copiar";
+            })
+            .finally(function () {
+                setTimeout(function () {
+                    btn.textContent = resetLabel;
+                    btn.classList.remove('is-copied');
+                }, 1800);
+            });
+    });
+  </script>
+  <script type="module" src="https://datacloudhero.com/theme/js/cookieconsent-config.js"></script>
+</body>
+</html>

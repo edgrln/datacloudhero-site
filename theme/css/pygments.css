@@ -1,0 +1,188 @@
+/* ---------- Code blocks (Pygments syntax highlighting) ----------
+   Pelican's default MARKDOWN config already runs Markdown's codehilite
+   extension (Pygments) server-side - every fenced ```python block already
+   comes out of the build as <div class="highlight"><pre><code><span
+   class="c1">...</span>...</code></pre></div>, the token spans just had no
+   CSS giving them color. This file supplies that CSS (generated via
+   `pygmentize -S friendly -f html -a .highlight` for light and
+   `pygmentize -S one-dark -f html -a .highlight` for dark, then hand-fit
+   into the site's box/border/accent conventions), plus the box chrome and
+   copy-button styling. The copy button itself is injected by JS in
+   partials/blog_scripts_end.html (delegated .js-copy-code click handler, mirrors the existing
+   .js-copy-markdown one) since Pygments' static markup has no button. */
+
+.article-body .highlight,
+.content-wrap .highlight {
+    position: relative;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--site-border-strong);
+    background: #f6f6f6;
+}
+
+.article-body .highlight pre,
+.content-wrap .highlight pre {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    line-height: 1.6;
+    background: transparent;
+}
+
+.article-body .highlight code,
+.content-wrap .highlight code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+}
+
+.code-copy-btn {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    border: 1px solid var(--site-border-strong);
+    border-radius: 6px;
+    background: var(--site-bg);
+    color: var(--site-muted);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.highlight:hover .code-copy-btn,
+.code-copy-btn:focus-visible {
+    opacity: 1;
+}
+
+.code-copy-btn:hover {
+    color: var(--site-accent);
+    border-color: var(--site-accent);
+}
+
+.code-copy-btn.is-copied {
+    opacity: 1;
+    color: var(--site-accent);
+    border-color: var(--site-accent);
+}
+
+/* ---------- Token colors: light (default) - Pygments "friendly" ---------- */
+.highlight .c { color: #60A0B0; font-style: italic }
+.highlight .err { border: 1px solid #F00 }
+.highlight .k { color: #007020; font-weight: bold }
+.highlight .o { color: #666 }
+.highlight .ch { color: #60A0B0; font-style: italic }
+.highlight .cm { color: #60A0B0; font-style: italic }
+.highlight .cp { color: #007020 }
+.highlight .cpf { color: #60A0B0; font-style: italic }
+.highlight .c1 { color: #60A0B0; font-style: italic }
+.highlight .cs { color: #60A0B0; background-color: #FFF0F0 }
+.highlight .gd { color: #A00000 }
+.highlight .ge { font-style: italic }
+.highlight .gr { color: #F00 }
+.highlight .gh { color: #000080; font-weight: bold }
+.highlight .gi { color: #00A000 }
+.highlight .go { color: #888 }
+.highlight .gp { color: #C65D09; font-weight: bold }
+.highlight .gs { font-weight: bold }
+.highlight .gu { color: #800080; font-weight: bold }
+.highlight .gt { color: #04D }
+.highlight .kc { color: #007020; font-weight: bold }
+.highlight .kd { color: #007020; font-weight: bold }
+.highlight .kn { color: #007020; font-weight: bold }
+.highlight .kp { color: #007020 }
+.highlight .kr { color: #007020; font-weight: bold }
+.highlight .kt { color: #902000 }
+.highlight .m { color: #40A070 }
+.highlight .s { color: #4070A0 }
+.highlight .na { color: #4070A0 }
+.highlight .nb { color: #007020 }
+.highlight .nc { color: #0E84B5; font-weight: bold }
+.highlight .no { color: #60ADD5 }
+.highlight .nd { color: #555; font-weight: bold }
+.highlight .ni { color: #D55537; font-weight: bold }
+.highlight .ne { color: #007020 }
+.highlight .nf { color: #06287E }
+.highlight .nl { color: #002070; font-weight: bold }
+.highlight .nn { color: #0E84B5; font-weight: bold }
+.highlight .nt { color: #062873; font-weight: bold }
+.highlight .nv { color: #BB60D5 }
+.highlight .ow { color: #007020; font-weight: bold }
+.highlight .w { color: #BBB }
+.highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo, .highlight .il { color: #40A070 }
+.highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sh,
+.highlight .s2, .highlight .sr, .highlight .s1 { color: #4070A0 }
+.highlight .sd { color: #4070A0; font-style: italic }
+.highlight .se { color: #4070A0; font-weight: bold }
+.highlight .si { color: #70A0D0; font-style: italic }
+.highlight .sx { color: #C65D09 }
+.highlight .ss { color: #517918 }
+.highlight .bp { color: #007020 }
+.highlight .fm { color: #06287E }
+.highlight .vc, .highlight .vg, .highlight .vi, .highlight .vm { color: #BB60D5 }
+
+/* ---------- Token colors: dark - Pygments "one-dark" ---------- */
+.dark .article-body .highlight,
+.dark .content-wrap .highlight {
+    /* Darker than one-dark's own #282C34, to sit on the site's deep
+       navy background (--site-bg) instead of looking like a grey slab. */
+    background: #0a0f1a;
+    border-color: var(--site-border-strong);
+}
+.dark .highlight { color: #ABB2BF; }
+.dark .highlight .c { color: #7F848E }
+.dark .highlight .err { color: #ABB2BF }
+.dark .highlight .k { color: #C678DD }
+.dark .highlight .n { color: #E06C75 }
+.dark .highlight .o { color: #56B6C2 }
+.dark .highlight .p { color: #ABB2BF }
+.dark .highlight .ch,
+.dark .highlight .cm,
+.dark .highlight .cp,
+.dark .highlight .cpf,
+.dark .highlight .c1,
+.dark .highlight .cs { color: #7F848E }
+.dark .highlight .kc, .dark .highlight .kt { color: #E5C07B }
+.dark .highlight .kd,
+.dark .highlight .kn,
+.dark .highlight .kp,
+.dark .highlight .kr { color: #C678DD }
+.dark .highlight .m,
+.dark .highlight .mb, .dark .highlight .mf,
+.dark .highlight .mh, .dark .highlight .mi,
+.dark .highlight .mo, .dark .highlight .il { color: #D19A66 }
+.dark .highlight .s,
+.dark .highlight .sa, .dark .highlight .sb,
+.dark .highlight .sc, .dark .highlight .dl,
+.dark .highlight .sd, .dark .highlight .s2,
+.dark .highlight .se, .dark .highlight .sh,
+.dark .highlight .si, .dark .highlight .sx,
+.dark .highlight .sr, .dark .highlight .s1,
+.dark .highlight .ss { color: #98C379 }
+.dark .highlight .na,
+.dark .highlight .no, .dark .highlight .ni,
+.dark .highlight .ne, .dark .highlight .nl,
+.dark .highlight .nn, .dark .highlight .nx,
+.dark .highlight .py, .dark .highlight .nt,
+.dark .highlight .nv,
+.dark .highlight .vc, .dark .highlight .vg,
+.dark .highlight .vi, .dark .highlight .vm { color: #E06C75 }
+.dark .highlight .nb, .dark .highlight .nc,
+.dark .highlight .bp { color: #E5C07B }
+.dark .highlight .nd { color: #61AFEF }
+.dark .highlight .nf { color: #61AFEF; font-weight: bold }
+.dark .highlight .ow, .dark .highlight .fm { color: #56B6C2 }
+.dark .highlight .w, .dark .highlight .pm,
+.dark .highlight .g, .dark .highlight .l,
+.dark .highlight .x, .dark .highlight .esc,
+.dark .highlight .gd, .dark .highlight .ge,
+.dark .highlight .ges, .dark .highlight .gr,
+.dark .highlight .gh, .dark .highlight .gi,
+.dark .highlight .go, .dark .highlight .gp,
+.dark .highlight .gs, .dark .highlight .gu,
+.dark .highlight .gt, .dark .highlight .ld { color: #ABB2BF }

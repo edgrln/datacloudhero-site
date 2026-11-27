@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-theme="dark">
+<head>
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      var html = document.documentElement;
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+    })();
+    function toggleTheme() {
+      var html = document.documentElement;
+      var theme = html.classList.contains('dark') ? 'light' : 'dark';
+      html.classList.toggle('dark', theme === 'dark');
+      html.setAttribute('data-theme', theme);
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    }
+  </script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Google Consent Mode v2 defaults: deny analytics/ads storage until
+      // the visitor accepts via the cookie banner (see
+      // theme/js/cookieconsent-config.js, which calls gtag('consent',
+      // 'update', ...) from CookieConsent's onFirstConsent/onChange).
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied'
+      });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MKSVW4QD');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Agents · datacloudhero.com</title>
+
+  <link rel="canonical" href="https://datacloudhero.com/blog/category/ai-agents/">
+  <meta property="og:url" content="https://datacloudhero.com/blog/category/ai-agents/">
+  <meta name="description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta property="og:site_name" content="datacloudhero.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="datacloudhero.com">
+  <meta property="og:description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta property="og:image" content="https://datacloudhero.com/theme/img/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="datacloudhero.com">
+  <meta name="twitter:description" content="Practical guides and tutorials on data &amp; AI engineering.">
+  <meta name="twitter:image" content="https://datacloudhero.com/theme/img/social-card.png">
+
+  <link rel="icon" href="https://datacloudhero.com/theme/img/favicon.ico" type="image/x-icon" />
+  <link href="https://datacloudhero.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="datacloudhero.com Full Atom Feed">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/site.css?v=3d90076755">
+  <link rel="stylesheet" href="https://datacloudhero.com/theme/css/pygments.css?v=01d990f349">
+  <script>
+      function siteSearch() {
+          return {
+              query: '',
+              open: false,
+              results: [],
+              index: [],
+              selected: 0,
+              showAll: false,
+              init() {
+                  fetch('https://datacloudhero.com/blog/search-index.json')
+                      .then((r) => r.json())
+                      .then((data) => { this.index = data; })
+                      .catch(() => { this.index = []; });
+              },
+              search() {
+                  const q = this.query.trim().toLowerCase();
+                  this.open = q.length > 0;
+                  this.selected = 0;
+                  this.showAll = false;
+                  if (!q) { this.results = []; return; }
+                  this.results = this.index.filter((item) =>
+                      item.title.toLowerCase().includes(q) || (item.content || item.summary).toLowerCase().includes(q)
+                  );
+              },
+              get visibleResults() {
+                  return this.showAll ? this.results : this.results.slice(0, 6);
+              },
+              clear() {
+                  this.query = '';
+                  this.results = [];
+                  this.open = false;
+              },
+              matchType(item) {
+                  const q = this.query.trim().toLowerCase();
+                  return item.title.toLowerCase().includes(q) ? 'title' : 'content';
+              },
+              escapeHtml(str) {
+                  return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+              },
+              highlight(text) {
+                  const q = this.query.trim();
+                  const escaped = this.escapeHtml(text);
+                  if (!q) return escaped;
+                  const escapedQ = this.escapeHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  return escaped.replace(new RegExp('(' + escapedQ + ')', 'ig'), '<strong>$1</strong>');
+              },
+              move(delta) {
+                  if (!this.visibleResults.length) return;
+                  const max = this.visibleResults.length - 1;
+                  this.selected = Math.min(max, Math.max(0, this.selected + delta));
+              },
+              go() {
+                  const item = this.visibleResults[this.selected];
+                  if (item) window.location.href = item.url;
+              },
+          };
+      }
+
+      function infiniteScroll(nextUrl) {
+          return {
+              nextUrl: nextUrl || null,
+              loading: false,
+              init() {
+                  if (!this.nextUrl) return;
+                  const observer = new IntersectionObserver((entries) => {
+                      if (entries[0].isIntersecting) this.loadMore();
+                  });
+                  observer.observe(this.$refs.sentinel);
+              },
+              async loadMore() {
+                  if (this.loading || !this.nextUrl) return;
+                  this.loading = true;
+                  try {
+                      const res = await fetch(this.nextUrl);
+                      const html = await res.text();
+                      const doc = new DOMParser().parseFromString(html, 'text/html');
+                      const newPosts = doc.querySelectorAll('#post-list > article');
+                      const list = this.$refs.postList;
+                      newPosts.forEach((post) => list.appendChild(post));
+                      const pagination = doc.getElementById('pagination-data');
+                      this.nextUrl = pagination ? (pagination.dataset.nextUrl || null) : null;
+                  } catch (e) {
+                      this.nextUrl = null;
+                  } finally {
+                      this.loading = false;
+                  }
+              },
+          };
+      }
+  </script>
+  <script defer src="https://datacloudhero.com/theme/js/contact-form.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body
+  class="grid-bg"
+  x-data="{
+    menuOpen: false,
+  }"
+  x-init="
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  "
+>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSVW4QD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <div class="navbar-custom py-4">
+    <div class="navbar-inner flex items-center justify-between">
+      <a href="https://datacloudhero.com/" class="text-xl font-bold tracking-tight flex items-center gap-2">
+        <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-8 w-auto" />
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="https://datacloudhero.com/#services" class="mono text-sm text-muted hover:text-accent transition-colors">Services</a>
+        <a href="https://datacloudhero.com/#stack" class="mono text-sm text-muted hover:text-accent transition-colors">Tech Stack</a>
+        <a href="https://datacloudhero.com/#process" class="mono text-sm text-muted hover:text-accent transition-colors">Process</a>
+        <a href="https://datacloudhero.com/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contact</a>
+        <a href="https://datacloudhero.com/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+        <div class="relative" x-data="{ langMenuOpen: false }" @click.outside="langMenuOpen = false">
+          <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+            EN
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div x-show="langMenuOpen" x-cloak x-transition class="absolute right-0 mt-2 w-36 rounded-xl border border-line/10 bg-panel/95 backdrop-blur-xl shadow-2xl py-2 z-50">
+            <a href="https://datacloudhero.com/blog/" hreflang="en" class="block px-4 py-2 text-sm mono text-accent font-semibold">English</a>
+            <a href="https://datacloudhero.com/fr/blog/" hreflang="fr" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Français</a>
+            <a href="https://datacloudhero.com/de/blog/" hreflang="de" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Deutsch</a>
+            <a href="https://datacloudhero.com/es/blog/" hreflang="es" class="block px-4 py-2 text-sm mono text-muted hover:text-accent transition-colors">Español</a>
+          </div>
+        </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Switch light/dark theme" title="Switch light/dark theme">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>        <a href="https://datacloudhero.com/#contact" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white hover:border-accent font-semibold mono">
+          Get in Touch
+        </a>
+      </nav>
+
+      <button
+        class="md:hidden text-muted hover:text-accent transition-colors"
+        type="button"
+        @click="menuOpen = !menuOpen"
+        :aria-expanded="menuOpen"
+        aria-label="Toggle menu"
+      >
+        <svg x-show="!menuOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+
+        <svg x-show="menuOpen" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      x-show="menuOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="navbar-inner md:hidden mt-4 flex flex-col gap-4 border-t border-line/5 pt-4 pb-2"
+      x-cloak
+    >
+      <a href="https://datacloudhero.com/#services" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Services</a>
+      <a href="https://datacloudhero.com/#stack" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Tech Stack</a>
+      <a href="https://datacloudhero.com/#process" @click="menuOpen=false" class="mono text-sm text-muted hover:text-accent transition-colors">Process</a>
+      <a href="https://datacloudhero.com/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="mono text-sm text-muted hover:text-accent transition-colors">Contact</a>
+      <a href="https://datacloudhero.com/blog/" class="mono text-sm text-accent hover:text-accent transition-colors">Blog</a>
+      <div x-data="{ langMenuOpen: false }">
+        <button type="button" @click="langMenuOpen = !langMenuOpen" :aria-expanded="langMenuOpen" class="mono text-sm text-muted hover:text-accent transition-colors flex items-center gap-1">
+          EN
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform" :class="langMenuOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div x-show="langMenuOpen" x-cloak x-transition class="flex flex-col gap-3 mt-3 pl-4 border-l border-line/10">
+          <a href="https://datacloudhero.com/blog/" hreflang="en" class="mono text-sm text-accent font-semibold">English</a>
+          <a href="https://datacloudhero.com/fr/blog/" hreflang="fr" class="mono text-sm text-muted hover:text-accent transition-colors">Français</a>
+          <a href="https://datacloudhero.com/de/blog/" hreflang="de" class="mono text-sm text-muted hover:text-accent transition-colors">Deutsch</a>
+          <a href="https://datacloudhero.com/es/blog/" hreflang="es" class="mono text-sm text-muted hover:text-accent transition-colors">Español</a>
+        </div>
+      </div>
+<button type="button" onclick="toggleTheme()" class="theme-toggle inline-flex items-center justify-center w-8 h-8 rounded-full border border-line/10 text-muted hover:text-accent hover:border-accent/40 transition-colors" aria-label="Switch light/dark theme" title="Switch light/dark theme">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>      <a href="https://datacloudhero.com/#contact" @click="menuOpen=false" @click.prevent="$dispatch('open-contact')" class="btn btn-sm btn-outline border-accent/40 text-accent hover:bg-accent hover:text-white w-fit font-semibold mono">
+        Get in Touch
+      </a>
+    </div>
+  </div>
+  <main class="site-main">
+    <div class="site-container">
+<div class="flex flex-col gap-12 lg:flex-row lg:gap-16">
+  <div class="lg:w-3/4 min-w-0">
+    <div class="content-wrap">
+<div class="mb-12">
+  <div class="mono text-accent text-sm mb-4 flex items-center gap-3">
+    <span class="accent-line"></span>
+    Category
+  </div>
+  <h1 class="text-4xl md:text-5xl font-extrabold text-ink tracking-tight">AI Agents</h1>
+</div><div class="grid md:grid-cols-2 gap-6">
+<article class="service-card post-card flex flex-col">
+  <img src="https://datacloudhero.com/blog/agent-memory-framework/agent-memory-diagram.png" alt="" loading="lazy" class="post-thumb border-b border-line/5" />
+  <div class="p-7 flex flex-col flex-1">
+    <div class="mono text-xs text-subtle mb-3">
+      <time datetime="2026-09-14T10:00:00+02:00">14.09.2026</time>
+ · AI Agents    </div>
+
+    <h3 class="text-lg font-bold text-ink mb-3 leading-snug">
+      <a href="https://datacloudhero.com/blog/agent-memory-framework/" class="post-title-link post-card-link">AI Agent Memory: A Working Framework, Not a Terminology Zoo</a>
+    </h3>
+
+    <p class="text-muted text-sm leading-relaxed mb-5">
+      Three independent axes — what's stored, how it's retrieved, and who owns it — instead of yet another list of four to seven "memory types."
+    </p>
+
+    <span class="post-card-read mono text-sm text-accent mt-auto" aria-hidden="true">Read →</span>
+  </div>
+</article></div>    </div>
+  </div>
+
+  <aside class="lg:w-1/4 lg:order-first">
+    <div class="sidebar-sticky">
+      <div class="search-box mb-10" x-data="siteSearch()" x-init="init()" @click.away="open = false">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Search"
+          aria-label="Search the blog"
+          x-model="query"
+          @input="search()"
+          @focus="open = query.length > 0"
+          @keydown.down.prevent="move(1)"
+          @keydown.up.prevent="move(-1)"
+          @keydown.enter.prevent="go()"
+          @keydown.escape="clear()"
+        >
+        <button type="button" class="search-clear" x-show="query.length > 0" x-cloak @click="clear()" aria-label="Clear search">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="search-results" x-show="open && results.length" x-cloak>
+          <div class="search-result-list">
+            <template x-for="(r, i) in visibleResults" :key="r.url">
+              <a :href="r.url"
+                 class="search-result-item"
+                 :class="{ 'is-selected': i === selected }"
+                 @mouseenter="selected = i">
+                <span class="search-result-icon" x-text="matchType(r) === 'title' ? '#' : '≡'"></span>
+                <span class="search-result-text">
+                  <span class="search-result-title" x-html="highlight(r.title)"></span>
+                  <span class="search-result-summary" x-text="r.summary"></span>
+                </span>
+                <svg class="search-result-enter" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6v6a2 2 0 0 1-2 2H6M10 10l-4 4 4 4"/></svg>
+              </a>
+            </template>
+          </div>
+          <template x-if="results.length > visibleResults.length">
+            <a href="#" class="search-see-all" @click.prevent="showAll = true">
+              See all results (<span x-text="results.length"></span>)
+            </a>
+          </template>
+        </div>
+        <div class="search-results" x-show="open && query.length > 0 && results.length === 0" x-cloak>
+          <div class="search-no-results">No results found</div>
+        </div>
+      </div>
+
+      <div class="sidebar-heading">All posts</div>
+      <div class="sidebar-year">2026</div>
+      <ul class="sidebar-list">
+        <li>
+          <a href="https://datacloudhero.com/blog/agent-memory-framework/" class="sidebar-link ">AI Agent Memory: A Working Framework, Not a Terminology Zoo</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+</div>
+    </div>
+  </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line/5 px-6 lg:px-16 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <img src="https://datacloudhero.com/theme/img/logo.svg" alt="datacloudhero" class="h-7 w-auto" loading="lazy" />
+        </div>
+
+        <div class="mono text-xs text-faint text-center">
+          <div>© 2025 datacloudhero.com.</div>
+          <div>Data & AI Engineering.</div>
+          <div class="whitespace-nowrap mt-1">🇫🇷 Made in France</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="https://datacloudhero.com/#services" class="mono text-xs text-subtle hover:text-accent transition-colors">Services</a>
+          <a href="https://datacloudhero.com/#stack" class="mono text-xs text-subtle hover:text-accent transition-colors">Stack</a>
+          <a href="https://datacloudhero.com/#contact" @click.prevent="$dispatch('open-contact')" class="mono text-xs text-subtle hover:text-accent transition-colors">Contact</a>
+          <a href="https://datacloudhero.com/blog/" class="mono text-xs text-subtle hover:text-accent transition-colors">Blog</a>
+          <a href="https://datacloudhero.com/blog/cookie-policy/" class="mono text-xs text-subtle hover:text-accent transition-colors">Cookie Policy</a>
+
+          <button
+            type="button"
+            data-cc="show-preferencesModal"
+            class="mono text-xs text-subtle hover:text-accent transition-colors bg-transparent border-0 p-0 cursor-pointer"
+          >
+            Cookie settings
+          </button>
+        </div>
+      </div>
+    </footer><div x-data="contactForm(&#34;Message sent. Thank you!&#34;, &#34;Something went wrong. Please email us directly instead.&#34;)" @open-contact.window="openContactForm()">
+    <!-- CONTACT MODAL -->
+    <div
+      x-show="showContactForm"
+      x-cloak
+      @keydown.escape.window="showContactForm = false"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+    >
+      <div
+        @click.away="showContactForm = false"
+        class="w-full max-w-2xl rounded-[32px] border border-line/10 bg-panel/95 p-6 shadow-2xl backdrop-blur-xl"
+      >
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <div class="mono text-accent text-sm mb-2">Contact</div>
+            <div class="text-3xl font-bold text-ink">Email Us</div>
+          </div>
+
+          <button type="button" @click="showContactForm = false" class="text-muted hover:text-ink text-2xl leading-none" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <template x-if="!submitted">
+        <form @submit.prevent="submitContact($event)" class="space-y-5">
+          <!-- Honeypot: hidden from real users, bots that auto-fill every input tend to fill it -->
+          <input
+            type="text"
+            name="company"
+            x-model="formData.company"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          />
+
+          <div class="grid gap-4">
+            <label class="block text-sm font-semibold text-copy">
+              Name
+              <input
+                name="name"
+                x-model="formData.name"
+                type="text"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Email
+              <input
+                name="email"
+                x-model="formData.email"
+                type="email"
+                required
+                class="mt-2 w-full rounded-2xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label class="block text-sm font-semibold text-copy">
+              Message
+              <textarea
+                name="message"
+                x-model="formData.message"
+                required
+                rows="6"
+                class="mt-2 w-full rounded-3xl border border-line/10 bg-field px-4 py-3 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEM7muzBPUFiEYFd" :data-theme="document.documentElement.classList.contains('dark') ? 'dark' : 'light'" data-language="en"></div>
+
+          <div class="flex flex-col gap-3">
+            <button type="submit" :disabled="submitting" class="btn btn-glow btn-lg rounded-2xl px-6 font-bold disabled:opacity-60">
+              <span x-show="!submitting">Send</span>
+              <span x-show="submitting">Sending…</span>
+            </button>
+
+            <div class="text-sm">
+              <p x-text="error" class="text-rose-400"></p>
+            </div>
+          </div>
+        </form>
+        </template>
+
+        <!-- Success is its own view, not a message left under the now-empty
+             form - x-if (not x-show) fully unmounts the form so its cleared
+             fields/honeypot/Turnstile widget aren't just hidden underneath.
+             openContactForm() (theme/js/contact-form.js) resets `submitted`
+             on the next open, and the modal auto-closes a couple seconds
+             after this view appears. -->
+        <template x-if="submitted">
+        <div class="text-center py-10">
+          <div class="mx-auto mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-accent">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p class="text-lg text-ink" x-text="status"></p>
+        </div>
+        </template>
+      </div>
+    </div>
+</div>
+  <script>
+    // "Copy page as Markdown" buttons (see partials/ai_actions.html).
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-markdown');
+        if (!btn) return;
+
+        var label = btn.closest('.ai-actions').querySelector('.js-ai-actions-label');
+        var resetLabel = label ? label.textContent : null;
+
+        fetch(btn.dataset.mdUrl)
+            .then(function (r) {
+                if (!r.ok) throw new Error('Fetch failed: ' + r.status);
+                return r.text();
+            })
+            .then(function (text) { return navigator.clipboard.writeText(text); })
+            .then(function () {
+                if (label) label.textContent = "Copied!";
+            })
+            .catch(function (err) {
+                console.error('Copy as Markdown failed', err);
+                if (label) label.textContent = "Copy failed";
+            })
+            .finally(function () {
+                if (label) setTimeout(function () { label.textContent = resetLabel; }, 1800);
+            });
+    });
+
+    // Copy button on fenced code blocks (```python ... ``` etc.).
+    // Pelican's codehilite/Pygments output (see theme/css/pygments.css)
+    // is static <div class="highlight"><pre><code>...</code></pre></div>
+    // markup with no button of its own, so inject one into each block
+    // found inside article/page content.
+    document.querySelectorAll('.article-body .highlight, .content-wrap .highlight').forEach(function (block) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-btn js-copy-code';
+        btn.textContent = "Copy";
+        block.appendChild(btn);
+    });
+
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-copy-code');
+        if (!btn) return;
+
+        var resetLabel = "Copy";
+        var code = btn.closest('.highlight').querySelector('code');
+
+        navigator.clipboard.writeText(code ? code.innerText : '')
+            .then(function () {
+                btn.textContent = "Copied!";
+                btn.classList.add('is-copied');
+            })
+            .catch(function (err) {
+                console.error('Copy code failed', err);
+                btn.textContent = "Copy failed";
+            })
+            .finally(function () {
+                setTimeout(function () {
+                    btn.textContent = resetLabel;
+                    btn.classList.remove('is-copied');
+                }, 1800);
+            });
+    });
+  </script>
+  <script type="module" src="https://datacloudhero.com/theme/js/cookieconsent-config.js"></script>
+</body>
+</html>
